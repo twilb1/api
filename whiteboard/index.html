@@ -1,0 +1,1426 @@
+
+<!doctype html>
+<html>
+  <head><meta name="generator" content="Hexo 3.9.0">
+    <meta charset="utf-8">
+    <meta content="IE=edge,chrome=1" http-equiv="X-UA-Compatible">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <title>TWi REST API Reference</title>
+
+    <link rel="stylesheet" type="text/css" href="https://twiapi.herokuapp.com/doc/whiteboard/css/style.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.18.1/highlight.min.js"></script>
+    <script>hljs.initHighlightingOnLoad();</script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
+
+    <script src="https://twiapi.herokuapp.com/doc/whiteboard/js/lib/energize.js"></script>
+    <script src="https://twiapi.herokuapp.com/doc/whiteboard/js/lib/imagesloaded.min.js"></script>
+    <script src="https://twiapi.herokuapp.com/doc/whiteboard/js/lib/jquery_ui.js"></script>
+    <script src="https://twiapi.herokuapp.com/doc/whiteboard/js/lib/jquery.highlight.js"></script>
+    <script src="https://twiapi.herokuapp.com/doc/whiteboard/js/lib/jquery.tocify.js"></script>
+    <script src="https://twiapi.herokuapp.com/doc/whiteboard/js/lib/lunr.js"></script>
+    <script src="https://twiapi.herokuapp.com/doc/whiteboard/js/script.js"></script>
+    
+  </head>
+
+  <body class>
+    <a href="#" id="nav-button">
+      <span>
+        NAV
+        <img src="https://twiapi.herokuapp.com/doc/whiteboard/images/navbar.png">
+      </span>
+    </a>
+    <div class="tocify-wrapper">
+      <img src="https://twiapi.herokuapp.com/doc/whiteboard/images/logo.png">
+      
+      
+        <div class="search">
+          <input type="text" class="search" id="input-search" placeholder="Search">
+        </div>
+        <ul class="search-results"></ul>
+      
+      <div id="toc">
+      </div>
+      
+    </div>
+    <div class="page-wrapper">
+      <div class="dark-box"></div>
+      <div class="content">
+        <h1 id="REST-API-Overview"><a href="#REST-API-Overview" class="headerlink" title="REST API Overview"></a>REST API Overview</h1><p>Technically Write IT (TWi) Ltd. provides an example service to demonstrate a real-world REST API in action. Clients can send HTTP requests to service endpoints and receive responses. This document describes the Application Programming Interface (API) that enables client-side application developers to communicate with the service.</p>
+<p>Using the API, developers can perform Create, Read, Update, and Delete (CRUD) operations on database objects using the following REST API requests:</p>
+<ul>
+<li><p>GET requests - to read information from the database tables</p>
+</li>
+<li><p>POST requests - to create records in database tables</p>
+</li>
+<li><p>PUT requests - to update records in database tables</p>
+</li>
+<li><p>DELETE requests - to delete records from the database tables</p>
+</li>
+</ul>
+<p>This document describes the details of the requests that can be issued, including:</p>
+<ul>
+<li><p>The type of the request</p>
+</li>
+<li><p>Required and optional parameters</p>
+</li>
+<li><p>Limitation of parameters, such as the length of a parameter string</p>
+</li>
+<li><p>Status codes that indicate if the request was successful or resulted in an error</p>
+</li>
+<li><p>Error messages</p>
+</li>
+</ul>
+<h1 id="Application-Database"><a href="#Application-Database" class="headerlink" title="Application Database"></a>Application Database</h1><p>To demonstrate REST API capabilities we are using the sample database that comes with SQLite. SQLite is a software library that provides a relational database management system and is popular for developing small-scale applications.</p>
+<p><img src="https://twiapi.herokuapp.com/doc/whiteboard/images/SQLite_Tutorial_DB.jpg" alt="SQLite Tutorial Database Entity-Relationship (ER) Diagram"></p>
+<h1 id="Getting-Started"><a href="#Getting-Started" class="headerlink" title="Getting Started"></a>Getting Started</h1><p>Getting started couldn’t be simpler! To get information about all the customers registerd in the database, in your favorite browser enter the URL shown in the panel on the right:</p>
+<pre><code class="highlight">https://twiapi.herokuapp.com/api/customers
+</code></pre><p>You get a response in JavaScript Object Notation (JSON) format showing the details of each customer in the database.</p>
+<p>Similarly, to get information about all the employees in the database, in the browser, enter the URL shown in the panel on the right:</p>
+<pre><code class="highlight">https://twiapi.herokuapp.com/api/employees
+</code></pre><p>You get a response in JSON format showing the details of each employee in the database.</p>
+<p>In a browser URL, it is only possible to issue GET requests. To issue more complicated REST requests, you can use a tool called <code>Postman</code>.</p>
+<h2 id="Postman"><a href="#Postman" class="headerlink" title="Postman"></a>Postman</h2><p>Postman is an online platform that allows API developers to collaborate on the development of REST API applications. The part we are most interested in is the <a href="https://www.postman.com/product/api-client" target="_blank" rel="noopener">Postman API Client</a>.</p>
+<p>We can use this client to send all types of requests to our REST API (or any REST API) and view the responses, status codes, and error messages. It is the ideal tool for REST API testing.</p>
+<p>The Postman API Client is freely available from it <a href="https://www.postman.com/downloads/" target="_blank" rel="noopener">download</a> page.</p>
+<p>The Postman API Client user interface is quite intuitive, but to help you get started, check out Postman’s own <a href="https://learning.postman.com/docs/postman/launching-postman/introduction/" target="_blank" rel="noopener">documentation</a>.</p>
+<h1 id="Managing-Information-in-the-Database"><a href="#Managing-Information-in-the-Database" class="headerlink" title="Managing Information in the Database"></a>Managing Information in the Database</h1><p>You can use the TWi REST API for:</p>
+<ul>
+<li><p><a href="#Customer-Management">Customer Management</a></p>
+</li>
+<li><p><a href="#Employee-Management">Employee Management</a></p>
+</li>
+</ul>
+<h2 id="Customer-Management"><a href="#Customer-Management" class="headerlink" title="Customer Management"></a>Customer Management</h2><p>You can view and edit the information retained in the database for customers. This information includes:</p>
+<ul>
+<li><p>Customer ID</p>
+</li>
+<li><p>First Name (required)</p>
+</li>
+<li><p>Last Name (required)</p>
+</li>
+<li><p>Company</p>
+</li>
+<li><p>Address</p>
+</li>
+<li><p>City</p>
+</li>
+<li><p>State</p>
+</li>
+<li><p>Country</p>
+</li>
+<li><p>Postal Code</p>
+</li>
+<li><p>Phone</p>
+</li>
+<li><p>Fax</p>
+</li>
+<li><p>Email (required)</p>
+</li>
+<li><p>Support Representative ID</p>
+</li>
+</ul>
+<p>The Customer ID is generated automatically by the database, and it cannot be changed. Attempting to do so results in an error.</p>
+<p>The First Name, Last Name, and Email are required fields, so you must specify them when adding a new customer. If you do not specify these fields when adding a customer, you receive an error.</p>
+<p>The Support Representative ID is the ID of an employee that is assigned to the customer.</p>
+<p>Using the TWi REST API, you can:</p>
+<ul>
+<li><p><a href="#View-Details-of-All-Customers">View details of all customers</a></p>
+</li>
+<li><p><a href="#View-Details-of-a-Single-Customer">View details of a single customer</a></p>
+</li>
+<li><p><a href="#Add-a-New-Customer">Add a new customer</a></p>
+</li>
+<li><p><a href="#Edit-Customer-Details">Edit customer details</a></p>
+</li>
+<li><p><a href="#Delete-a-Customer">Delete a customer</a></p>
+</li>
+</ul>
+<h2 id="Employee-Management"><a href="#Employee-Management" class="headerlink" title="Employee Management"></a>Employee Management</h2><p>You can view and edit the information retained in the database for employees. This information includes:</p>
+<ul>
+<li><p>Employee ID</p>
+</li>
+<li><p>Last Name (required)</p>
+</li>
+<li><p>First Name (required)</p>
+</li>
+<li><p>Title</p>
+</li>
+<li><p>Reports To</p>
+</li>
+<li><p>Birth Date</p>
+</li>
+<li><p>Hire Date</p>
+</li>
+<li><p>Address</p>
+</li>
+<li><p>City</p>
+</li>
+<li><p>State</p>
+</li>
+<li><p>Country</p>
+</li>
+<li><p>Postal Code</p>
+</li>
+<li><p>Phone</p>
+</li>
+<li><p>Fax</p>
+</li>
+<li><p>Email (required)</p>
+</li>
+</ul>
+<p>The Employee ID is generated automatically by the database, and it cannot be changed. Attempting to do so results in an error.</p>
+<p>The First Name, Last Name, and Email are required fields, so you must specify them when adding a new employee. If you do not specify these fields when adding an employee, you receive an error.</p>
+<p>The Reports To parameter is the ID of an employee that the employee reports to.</p>
+<p>Using the TWi REST API, you can:</p>
+<ul>
+<li><p><a href="#View-Details-of-All-Employees">View details of all empoloyees</a></p>
+</li>
+<li><p><a href="#View-Details-of-a-Single-Employee">View details of a single employee</a></p>
+</li>
+<li><p><a href="#Add-an-Employee">Add a new employee</a></p>
+</li>
+<li><p><a href="#Edit-Employee-Details">Edit empoloyee details</a></p>
+</li>
+<li><p><a href="#Delete-an-Employee">Delete an employee</a></p>
+</li>
+</ul>
+<h1 id="Customers"><a href="#Customers" class="headerlink" title="Customers"></a>Customers</h1><h2 id="View-Details-of-All-Customers"><a href="#View-Details-of-All-Customers" class="headerlink" title="View Details of All Customers"></a>View Details of All Customers</h2><p>You can get a list of all customers with details by sending an HTTP <strong>GET</strong> request to the <code>/api/customers</code> endpoint.</p>
+<table>
+<thead>
+<tr>
+<th>Request</th>
+<th>POST <code>/api/customers</code></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Host</strong></td>
+<td><a href="https://twiapi.herokuapp.com" target="_blank" rel="noopener">https://twiapi.herokuapp.com</a></td>
+</tr>
+<tr>
+<td><strong>Content Type</strong></td>
+<td>application/json</td>
+</tr>
+<tr>
+<td><strong>Headers</strong></td>
+<td>-</td>
+</tr>
+</tbody>
+</table>
+<h3 id="Request-Body-Payload-Example"><a href="#Request-Body-Payload-Example" class="headerlink" title="Request Body Payload Example"></a>Request Body Payload Example</h3><p>None.</p>
+<h3 id="Example-Response"><a href="#Example-Response" class="headerlink" title="Example Response"></a>Example Response</h3><p>If the get customer details request is successful, the service returns a response.</p>
+<p>The body of the response contains a JSON structure as follows:</p>
+<pre><code class="highlight">[
+    {
+        &quot;CustomerId&quot;: 1,
+        &quot;FirstName&quot;: &quot;Luis&quot;,
+        &quot;LastName&quot;: &quot;Goncalves&quot;,
+        &quot;Company&quot;: &quot;Embraer - Empresa Brasileira de Aeronautica S.A.&quot;,
+        &quot;Address&quot;: &quot;Av. Brigadeiro Faria Lima, 2170&quot;,
+        &quot;City&quot;: &quot;Sao Jose dos Campos&quot;,
+        &quot;State&quot;: &quot;SP&quot;,
+        &quot;Country&quot;: &quot;Brazil&quot;,
+        &quot;PostalCode&quot;: &quot;12227-000&quot;,
+        &quot;Phone&quot;: &quot;+55 (12) 3923-5555&quot;,
+        &quot;Fax&quot;: &quot;+55 (12) 3923-5566&quot;,
+        &quot;Email&quot;: &quot;luisg@embraer.com.br&quot;,
+        &quot;SupportRepId&quot;: 3
+    },
+    {
+        &quot;CustomerId&quot;: 2,
+        &quot;FirstName&quot;: &quot;Leonie&quot;,
+        &quot;LastName&quot;: &quot;Kohler&quot;,
+        &quot;Company&quot;: null,
+        &quot;Address&quot;: &quot;Theodor-Heuss-Strasse 34&quot;,
+        &quot;City&quot;: &quot;Stuttgart&quot;,
+        &quot;State&quot;: null,
+        &quot;Country&quot;: &quot;Germany&quot;,
+        &quot;PostalCode&quot;: &quot;70174&quot;,
+        &quot;Phone&quot;: &quot;+49 0711 2842222&quot;,
+        &quot;Fax&quot;: null,
+        &quot;Email&quot;: &quot;leonekohler@surfeu.de&quot;,
+        &quot;SupportRepId&quot;: 5
+    },
+    ...
+]
+</code></pre><p>The response contains a list of the details for each customer. The customer details include the following parameters:</p>
+<table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Description</th>
+<th>Type</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>CustomerId</code></td>
+<td>The internal unique ID of the customer, for example 7.</td>
+<td>Integer</td>
+</tr>
+<tr>
+<td><code>FirstName</code></td>
+<td>The first name of the customer.</td>
+<td>Varchar</td>
+</tr>
+<tr>
+<td><code>LastName</code></td>
+<td>The last name of the customer.</td>
+<td>Varchar</td>
+</tr>
+<tr>
+<td><code>Company</code></td>
+<td>The name of the customers company.</td>
+<td>Varchar</td>
+</tr>
+<tr>
+<td><code>Address</code></td>
+<td>The address of the customer.</td>
+<td>Varchar</td>
+</tr>
+<tr>
+<td><code>City</code></td>
+<td>The city in which the customer is based.</td>
+<td>Varchar</td>
+</tr>
+<tr>
+<td><code>State</code></td>
+<td>The state in which the customer is based.</td>
+<td>Varchar</td>
+</tr>
+<tr>
+<td><code>Country</code></td>
+<td>The country in which the customer is based.</td>
+<td>Varchar</td>
+</tr>
+<tr>
+<td><code>PostalCode</code></td>
+<td>The postal code of the customer’s location.</td>
+<td>Varchar</td>
+</tr>
+<tr>
+<td><code>Phone</code></td>
+<td>The customer’s phone number.</td>
+<td>Varchar</td>
+</tr>
+<tr>
+<td><code>Fax</code></td>
+<td>The customer’s FAX number.</td>
+<td>Varchar</td>
+</tr>
+<tr>
+<td><code>Email</code></td>
+<td>The customer’s email address.</td>
+<td>Varchar</td>
+</tr>
+<tr>
+<td><code>SupportRepId</code></td>
+<td>The ID of the employee assigned to the customer.</td>
+<td>Integer</td>
+</tr>
+</tbody>
+</table>
+<h3 id="Errors"><a href="#Errors" class="headerlink" title="Errors"></a>Errors</h3><p>None.</p>
+<h2 id="View-Details-of-a-Single-Customer"><a href="#View-Details-of-a-Single-Customer" class="headerlink" title="View Details of a Single Customer"></a>View Details of a Single Customer</h2><p>You can get details of a specific customer by sending an HTTP <strong>GET</strong> request to the <code>/api/customers/&lt;ID&gt;</code> endpoint, where <code>&lt;ID&gt;</code> is a placeholder for an actual employee ID.</p>
+<table>
+<thead>
+<tr>
+<th>Request</th>
+<th>POST <code>/api/customers/&lt;ID&gt;</code></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Host</strong></td>
+<td><a href="https://twiapi.herokuapp.com" target="_blank" rel="noopener">https://twiapi.herokuapp.com</a></td>
+</tr>
+<tr>
+<td><strong>Content Type</strong></td>
+<td>application/json</td>
+</tr>
+<tr>
+<td><strong>Headers</strong></td>
+<td>-</td>
+</tr>
+</tbody>
+</table>
+<h3 id="Request-Body-Payload-Example-1"><a href="#Request-Body-Payload-Example-1" class="headerlink" title="Request Body Payload Example"></a>Request Body Payload Example</h3><p>None.</p>
+<h3 id="Example-Response-1"><a href="#Example-Response-1" class="headerlink" title="Example Response"></a>Example Response</h3><p>If the get customer details request is successful, the service returns a response.</p>
+<p>The body of the response contains a JSON structure similar to the following. The assumption is that the <code>&lt;ID&gt;</code> specified was <code>2</code>.</p>
+<pre><code class="highlight">[
+    {
+        &quot;CustomerId&quot;: 2,
+        &quot;FirstName&quot;: &quot;Leonie&quot;,
+        &quot;LastName&quot;: &quot;Kohler&quot;,
+        &quot;Company&quot;: null,
+        &quot;Address&quot;: &quot;Theodor-Heuss-Strasse 34&quot;,
+        &quot;City&quot;: &quot;Stuttgart&quot;,
+        &quot;State&quot;: null,
+        &quot;Country&quot;: &quot;Germany&quot;,
+        &quot;PostalCode&quot;: &quot;70174&quot;,
+        &quot;Phone&quot;: &quot;+49 0711 2842222&quot;,
+        &quot;Fax&quot;: null,
+        &quot;Email&quot;: &quot;leonekohler@surfeu.de&quot;,
+        &quot;SupportRepId&quot;: 5
+    }
+]
+</code></pre><p>The response contains a list of the details for the customer. The customer details include the following parameters:</p>
+<table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Description</th>
+<th>Type</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>CustomerId</code></td>
+<td>The internal unique ID of the customer, in this case 2.</td>
+<td>Integer</td>
+</tr>
+<tr>
+<td><code>FirstName</code></td>
+<td>The first name of the customer.</td>
+<td>Varchar</td>
+</tr>
+<tr>
+<td><code>LastName</code></td>
+<td>The last name of the customer.</td>
+<td>Varchar</td>
+</tr>
+<tr>
+<td><code>Company</code></td>
+<td>The name of the customers company.</td>
+<td>Varchar</td>
+</tr>
+<tr>
+<td><code>Address</code></td>
+<td>The address of the customer.</td>
+<td>Varchar</td>
+</tr>
+<tr>
+<td><code>City</code></td>
+<td>The city in which the customer is based.</td>
+<td>Varchar</td>
+</tr>
+<tr>
+<td><code>State</code></td>
+<td>The state in which the customer is based.</td>
+<td>Varchar</td>
+</tr>
+<tr>
+<td><code>Country</code></td>
+<td>The country in which the customer is based.</td>
+<td>Varchar</td>
+</tr>
+<tr>
+<td><code>PostalCode</code></td>
+<td>The postal code of the customer’s location.</td>
+<td>Varchar</td>
+</tr>
+<tr>
+<td><code>Phone</code></td>
+<td>The customer’s phone number.</td>
+<td>Varchar</td>
+</tr>
+<tr>
+<td><code>Fax</code></td>
+<td>The customer’s FAX number.</td>
+<td>Varchar</td>
+</tr>
+<tr>
+<td><code>Email</code></td>
+<td>The customer’s email address.</td>
+<td>Varchar</td>
+</tr>
+<tr>
+<td><code>SupportRepId</code></td>
+<td>The ID of the employee assigned to the customer.</td>
+<td>Integer</td>
+</tr>
+</tbody>
+</table>
+<h3 id="Errors-1"><a href="#Errors-1" class="headerlink" title="Errors"></a>Errors</h3><p>None. If you specify an customer ID that does not exist, the response is <code>null</code>.</p>
+<h2 id="Add-a-New-Customer"><a href="#Add-a-New-Customer" class="headerlink" title="Add a New Customer"></a>Add a New Customer</h2><p>You add a new customer by sending an HTTP <strong>POST</strong> request with the required customer information to the <code>/api/customers</code> endpoint.</p>
+<blockquote>
+<p><strong>Note</strong></p>
+<p>The <code>FirstName</code>, <code>LastName</code>, and <code>Email</code> parameters are required and you must specify them in your request. You can optionally include other parameters in the request.</p>
+</blockquote>
+<table>
+<thead>
+<tr>
+<th>Request</th>
+<th>POST <code>/api/customers</code></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Host</strong></td>
+<td><a href="https://twiapi.herokuapp.com" target="_blank" rel="noopener">https://twiapi.herokuapp.com</a></td>
+</tr>
+<tr>
+<td><strong>Content Type</strong></td>
+<td>application/json</td>
+</tr>
+<tr>
+<td><strong>Headers</strong></td>
+<td>-</td>
+</tr>
+</tbody>
+</table>
+<h3 id="Request-Body-Payload-Example-2"><a href="#Request-Body-Payload-Example-2" class="headerlink" title="Request Body Payload Example"></a>Request Body Payload Example</h3><p>An example of the JSON structure in the request body is as follows:</p>
+<pre><code class="highlight">{
+    &quot;FirstName&quot;: &quot;Len&quot;,
+    &quot;LastName&quot;: &quot;Baker&quot;,
+    &quot;Email&quot;: &quot;len.baker@technicallywriteit.com&quot;
+}
+</code></pre><p>The request body can include the following:</p>
+<table>
+<thead>
+<tr>
+<th>Input Parameter</th>
+<th>Description</th>
+<th>Type</th>
+<th>Size</th>
+<th>Mandatory</th>
+<th>Default Value</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>FirstName</code></td>
+<td>The first name of the customer.</td>
+<td>Varchar</td>
+<td>2-40</td>
+<td>Yes</td>
+<td>-</td>
+</tr>
+<tr>
+<td><code>LastName</code></td>
+<td>The last name of the customer.</td>
+<td>Varchar</td>
+<td>2-20</td>
+<td>Yes</td>
+<td>-</td>
+</tr>
+<tr>
+<td><code>Company</code></td>
+<td>The name of the customers company.</td>
+<td>Varchar</td>
+<td>80</td>
+<td>No</td>
+<td>-</td>
+</tr>
+<tr>
+<td><code>Address</code></td>
+<td>The address of the customer.</td>
+<td>Varchar</td>
+<td>70</td>
+<td>No</td>
+<td>-</td>
+</tr>
+<tr>
+<td><code>City</code></td>
+<td>The city in which the customer is based.</td>
+<td>Varchar</td>
+<td>40</td>
+<td>No</td>
+<td>-</td>
+</tr>
+<tr>
+<td><code>State</code></td>
+<td>The state in which the customer is based.</td>
+<td>Varchar</td>
+<td>40</td>
+<td>No</td>
+<td>-</td>
+</tr>
+<tr>
+<td><code>Country</code></td>
+<td>The country in which the customer is based.</td>
+<td>Varchar</td>
+<td>40</td>
+<td>No</td>
+<td>-</td>
+</tr>
+<tr>
+<td><code>PostalCode</code></td>
+<td>The postal code of the customer’s location.</td>
+<td>Varchar</td>
+<td>40</td>
+<td>No</td>
+<td>-</td>
+</tr>
+<tr>
+<td><code>Phone</code></td>
+<td>The customer’s phone number.</td>
+<td>Varchar</td>
+<td>40</td>
+<td>No</td>
+<td>-</td>
+</tr>
+<tr>
+<td><code>Fax</code></td>
+<td>The customer’s FAX number.</td>
+<td>Varchar</td>
+<td>40</td>
+<td>No</td>
+<td>-</td>
+</tr>
+<tr>
+<td><code>Email</code></td>
+<td>The customer’s email address.</td>
+<td>Varchar</td>
+<td>40</td>
+<td>Yes</td>
+<td>-</td>
+</tr>
+<tr>
+<td><code>SupportRepId</code></td>
+<td>The ID of the employee assigned to the customer.</td>
+<td>Varchar</td>
+<td>40</td>
+<td>No</td>
+<td>-</td>
+</tr>
+</tbody>
+</table>
+<h3 id="Example-Response-2"><a href="#Example-Response-2" class="headerlink" title="Example Response"></a>Example Response</h3><p>If the add customer request is successful and the service allocates a <code>CustomerID</code>, the service returns a response.</p>
+<p>The response is as follows:</p>
+<pre><code class="highlight">&quot;The customer record was added.&quot;
+</code></pre><h3 id="Errors-2"><a href="#Errors-2" class="headerlink" title="Errors"></a>Errors</h3><p>If the add customer request is not successful, the service responds with an error code, rejects the request, and does not create the customer record in the database. Some examples of error messages are provided.</p>
+<p>A parameter value is longer or shorter than the specified range. For example, if <code>FirstName</code> is shorter than two characters or longer than 40 characters, the following errors are generated:</p>
+<pre><code class="highlight">&quot;FirstName&quot; length must be at least 2 characters long&quot;
+</code></pre><p>or</p>
+<pre><code class="highlight">&quot;FirstName&quot; length must be less than or equal to 40 characters long&quot;
+</code></pre><p>If an email address is specified in an incorrect format:</p>
+<pre><code class="highlight">&quot;Email&quot; must be a valid email&quot;
+</code></pre><h2 id="Edit-Customer-Details"><a href="#Edit-Customer-Details" class="headerlink" title="Edit Customer Details"></a>Edit Customer Details</h2><p>You can edit customer details by sending an HTTP <strong>PUT</strong> request with the relevant customer information to the <code>/api/customers/&lt;ID&gt;</code> endpoint, where <code>&lt;ID&gt;</code> is the ID of the customer.</p>
+<table>
+<thead>
+<tr>
+<th>Request</th>
+<th>PUT <code>/api/customers/&lt;ID&gt;</code></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Host</strong></td>
+<td><a href="https://twiapi.herokuapp.com" target="_blank" rel="noopener">https://twiapi.herokuapp.com</a></td>
+</tr>
+<tr>
+<td><strong>Content Type</strong></td>
+<td>application/json</td>
+</tr>
+<tr>
+<td><strong>Headers</strong></td>
+<td>-</td>
+</tr>
+</tbody>
+</table>
+<h3 id="Request-Body-Payload-Example-3"><a href="#Request-Body-Payload-Example-3" class="headerlink" title="Request Body Payload Example"></a>Request Body Payload Example</h3><p>An example of the JSON structure in the request body is as follows:</p>
+<pre><code class="highlight">{
+    &quot;City&quot;: &quot;Cork&quot;,
+    &quot;Country&quot;: &quot;Ireland&quot;,
+    &quot;Phone&quot;: &quot;+353 (0) 21 2428800&quot;
+}
+</code></pre><p>The request body can include the following:</p>
+<table>
+<thead>
+<tr>
+<th>Input Parameter</th>
+<th>Description</th>
+<th>Type</th>
+<th>Size</th>
+<th>Mandatory</th>
+<th>Default Value</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>FirstName</code></td>
+<td>The first name of the customer.</td>
+<td>Varchar</td>
+<td>2-40</td>
+<td>Yes</td>
+<td>-</td>
+</tr>
+<tr>
+<td><code>LastName</code></td>
+<td>The last name of the customer.</td>
+<td>Varchar</td>
+<td>2-20</td>
+<td>Yes</td>
+<td>-</td>
+</tr>
+<tr>
+<td><code>Company</code></td>
+<td>The name of the customers company.</td>
+<td>Varchar</td>
+<td>80</td>
+<td>No</td>
+<td>-</td>
+</tr>
+<tr>
+<td><code>Address</code></td>
+<td>The address of the customer.</td>
+<td>Varchar</td>
+<td>70</td>
+<td>No</td>
+<td>-</td>
+</tr>
+<tr>
+<td><code>City</code></td>
+<td>The city in which the customer is based.</td>
+<td>Varchar</td>
+<td>40</td>
+<td>No</td>
+<td>-</td>
+</tr>
+<tr>
+<td><code>State</code></td>
+<td>The state in which the customer is based.</td>
+<td>Varchar</td>
+<td>40</td>
+<td>No</td>
+<td>-</td>
+</tr>
+<tr>
+<td><code>Country</code></td>
+<td>The country in which the customer is based.</td>
+<td>Varchar</td>
+<td>40</td>
+<td>No</td>
+<td>-</td>
+</tr>
+<tr>
+<td><code>PostalCode</code></td>
+<td>The postal code of the customer’s location.</td>
+<td>Varchar</td>
+<td>40</td>
+<td>No</td>
+<td>-</td>
+</tr>
+<tr>
+<td><code>Phone</code></td>
+<td>The customer’s phone number.</td>
+<td>Varchar</td>
+<td>40</td>
+<td>No</td>
+<td>-</td>
+</tr>
+<tr>
+<td><code>Fax</code></td>
+<td>The customer’s FAX number.</td>
+<td>Varchar</td>
+<td>40</td>
+<td>No</td>
+<td>-</td>
+</tr>
+<tr>
+<td><code>Email</code></td>
+<td>The customer’s email address.</td>
+<td>Varchar</td>
+<td>40</td>
+<td>Yes</td>
+<td>-</td>
+</tr>
+<tr>
+<td><code>SupportRepId</code></td>
+<td>The ID of the employee assigned to the customer.</td>
+<td>Varchar</td>
+<td>40</td>
+<td>No</td>
+<td>-</td>
+</tr>
+</tbody>
+</table>
+<h3 id="Example-Response-3"><a href="#Example-Response-3" class="headerlink" title="Example Response"></a>Example Response</h3><p>If the edit customer details request is successful, the service returns a response.</p>
+<p>The response is as follows:</p>
+<pre><code class="highlight">&quot;The customer record was updated.&quot;
+</code></pre><h3 id="Errors-3"><a href="#Errors-3" class="headerlink" title="Errors"></a>Errors</h3><p>If the edit customer details request is not successful, the service responds with an error code, rejects the request, and does not update the customer record in the database. Some examples of error messages are provided.</p>
+<p>A parameter value is longer or shorter than the specified range. For example, if <code>City</code> is shorter than two characters or longer than 40 characters, the following errors are generated:</p>
+<pre><code class="highlight">&quot;City&quot; length must be at least 2 characters long&quot;
+</code></pre><p>or</p>
+<pre><code class="highlight">&quot;City&quot; length must be less than or equal to 40 characters long&quot;
+</code></pre><p>If an email address is specified in an incorrect format:</p>
+<pre><code class="highlight">&quot;Email&quot; must be a valid email&quot;
+</code></pre><h2 id="Delete-a-Customer"><a href="#Delete-a-Customer" class="headerlink" title="Delete a Customer"></a>Delete a Customer</h2><p>You delete a customer record by sending an HTTP <strong>DELETE</strong> request to the <code>/api/customers/&lt;id&gt;</code> endpoint, where <code>&lt;ID&gt;</code> is the ID of the customer record to be deleted.</p>
+<table>
+<thead>
+<tr>
+<th>Request</th>
+<th>DELETE <code>/api/customers/&lt;ID&gt;</code></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Host</strong></td>
+<td><a href="https://twiapi.herokuapp.com" target="_blank" rel="noopener">https://twiapi.herokuapp.com</a></td>
+</tr>
+<tr>
+<td><strong>Content Type</strong></td>
+<td>application/json</td>
+</tr>
+<tr>
+<td><strong>Headers</strong></td>
+<td>-</td>
+</tr>
+</tbody>
+</table>
+<h3 id="Request-Body-Payload-Example-4"><a href="#Request-Body-Payload-Example-4" class="headerlink" title="Request Body Payload Example"></a>Request Body Payload Example</h3><p>None.</p>
+<h3 id="Example-Response-4"><a href="#Example-Response-4" class="headerlink" title="Example Response"></a>Example Response</h3><p>If the delete customer request is successful, the service returns a response with a message.</p>
+<pre><code class="highlight">&quot;The customer record is deleted.&quot;
+</code></pre><h1 id="Employees"><a href="#Employees" class="headerlink" title="Employees"></a>Employees</h1><h2 id="View-Details-of-All-Employees"><a href="#View-Details-of-All-Employees" class="headerlink" title="View Details of All Employees"></a>View Details of All Employees</h2><p>You can get a list of all employees with details by sending an HTTP <strong>GET</strong> request to the <code>/api/employees</code> endpoint.</p>
+<table>
+<thead>
+<tr>
+<th>Request</th>
+<th>POST <code>/api/employees</code></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Host</strong></td>
+<td><a href="https://twiapi.herokuapp.com" target="_blank" rel="noopener">https://twiapi.herokuapp.com</a></td>
+</tr>
+<tr>
+<td><strong>Content Type</strong></td>
+<td>application/json</td>
+</tr>
+<tr>
+<td><strong>Headers</strong></td>
+<td>-</td>
+</tr>
+</tbody>
+</table>
+<h3 id="Request-Body-Payload-Example-5"><a href="#Request-Body-Payload-Example-5" class="headerlink" title="Request Body Payload Example"></a>Request Body Payload Example</h3><p>None.</p>
+<h3 id="Example-Response-5"><a href="#Example-Response-5" class="headerlink" title="Example Response"></a>Example Response</h3><p>If the get employee details request is successful, the service returns a response.</p>
+<p>The body of the response contains a JSON structure as follows:</p>
+<pre><code class="highlight">[
+    {
+        &quot;EmployeeId&quot;: 1,
+        &quot;LastName&quot;: &quot;Adams&quot;,
+        &quot;FirstName&quot;: &quot;Andrew&quot;,
+        &quot;Title&quot;: &quot;General Manager&quot;,
+        &quot;ReportsTo&quot;: null,
+        &quot;BirthDate&quot;: &quot;1962-02-18 00:00:00&quot;,
+        &quot;HireDate&quot;: &quot;2002-08-14 00:00:00&quot;,
+        &quot;Address&quot;: &quot;11120 Jasper Ave NW&quot;,
+        &quot;City&quot;: &quot;Edmonton&quot;,
+        &quot;State&quot;: &quot;AB&quot;,
+        &quot;Country&quot;: &quot;Canada&quot;,
+        &quot;PostalCode&quot;: &quot;T5K 2N1&quot;,
+        &quot;Phone&quot;: &quot;+1 (780) 428-9482&quot;,
+        &quot;Fax&quot;: &quot;+1 (780) 428-3457&quot;,
+        &quot;Email&quot;: &quot;andrew@chinookcorp.com&quot;
+    },
+    {
+        &quot;EmployeeId&quot;: 2,
+        &quot;LastName&quot;: &quot;Edwards&quot;,
+        &quot;FirstName&quot;: &quot;Nancy&quot;,
+        &quot;Title&quot;: &quot;Sales Manager&quot;,
+        &quot;ReportsTo&quot;: 1,
+        &quot;BirthDate&quot;: &quot;1958-12-08 00:00:00&quot;,
+        &quot;HireDate&quot;: &quot;2002-05-01 00:00:00&quot;,
+        &quot;Address&quot;: &quot;825 8 Ave SW&quot;,
+        &quot;City&quot;: &quot;Calgary&quot;,
+        &quot;State&quot;: &quot;AB&quot;,
+        &quot;Country&quot;: &quot;Canada&quot;,
+        &quot;PostalCode&quot;: &quot;T2P 2T3&quot;,
+        &quot;Phone&quot;: &quot;+1 (403) 262-3443&quot;,
+        &quot;Fax&quot;: &quot;+1 (403) 262-3322&quot;,
+        &quot;Email&quot;: &quot;nancy@chinookcorp.com&quot;
+    },
+    ...
+]
+</code></pre><p>The response contains a list of the details for each employee. The employee details include the following parameters:</p>
+<table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Description</th>
+<th>Type</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>EmployeeId</code></td>
+<td>The internal unique ID of the employee, for example 7.</td>
+<td>Integer</td>
+</tr>
+<tr>
+<td><code>FirstName</code></td>
+<td>The first name of the employee.</td>
+<td>Varchar</td>
+</tr>
+<tr>
+<td><code>LastName</code></td>
+<td>The last name of the empoloyee.</td>
+<td>Varchar</td>
+</tr>
+<tr>
+<td><code>Title</code></td>
+<td>The role of the employee in the company, for example, “General Manager”.</td>
+<td>Varchar</td>
+</tr>
+<tr>
+<td><code>ReportsTo</code></td>
+<td>The ID of the person (employee) to which the employee reports.</td>
+<td>Integer</td>
+</tr>
+<tr>
+<td><code>BirthDate</code></td>
+<td>The employee’s birth date.</td>
+<td>Varchar</td>
+</tr>
+<tr>
+<td><code>HireDate</code></td>
+<td>The date on which the employee started with the company.</td>
+<td>Varchar</td>
+</tr>
+<tr>
+<td><code>Address</code></td>
+<td>The address of the employee.</td>
+<td>Varchar</td>
+</tr>
+<tr>
+<td><code>City</code></td>
+<td>The city in which the employee is based.</td>
+<td>Varchar</td>
+</tr>
+<tr>
+<td><code>State</code></td>
+<td>The state in which the empoloyee is based.</td>
+<td>Varchar</td>
+</tr>
+<tr>
+<td><code>Country</code></td>
+<td>The country in which the employee is based.</td>
+<td>Varchar</td>
+</tr>
+<tr>
+<td><code>PostalCode</code></td>
+<td>The postal code of the employee’s location.</td>
+<td>Varchar</td>
+</tr>
+<tr>
+<td><code>Phone</code></td>
+<td>The employee’s phone number.</td>
+<td>Varchar</td>
+</tr>
+<tr>
+<td><code>Fax</code></td>
+<td>The empoloyee’s FAX number.</td>
+<td>Varchar</td>
+</tr>
+<tr>
+<td><code>Email</code></td>
+<td>The empoloyee’s email address.</td>
+<td>Varchar</td>
+</tr>
+</tbody>
+</table>
+<h3 id="Errors-4"><a href="#Errors-4" class="headerlink" title="Errors"></a>Errors</h3><p>None.</p>
+<h2 id="View-Details-of-a-Single-Employee"><a href="#View-Details-of-a-Single-Employee" class="headerlink" title="View Details of a Single Employee"></a>View Details of a Single Employee</h2><p>You can get details of a specific employee by sending an HTTP <strong>GET</strong> request to the <code>/api/customers/&lt;ID&gt;</code> endpoint, where <code>&lt;ID&gt;</code> is a placeholder for an actual employee ID.</p>
+<table>
+<thead>
+<tr>
+<th>Request</th>
+<th>POST <code>/api/employees/&lt;ID&gt;</code></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Host</strong></td>
+<td><a href="https://twiapi.herokuapp.com" target="_blank" rel="noopener">https://twiapi.herokuapp.com</a></td>
+</tr>
+<tr>
+<td><strong>Content Type</strong></td>
+<td>application/json</td>
+</tr>
+<tr>
+<td><strong>Headers</strong></td>
+<td>-</td>
+</tr>
+</tbody>
+</table>
+<h3 id="Request-Body-Payload-Example-6"><a href="#Request-Body-Payload-Example-6" class="headerlink" title="Request Body Payload Example"></a>Request Body Payload Example</h3><p>None.</p>
+<h3 id="Example-Response-6"><a href="#Example-Response-6" class="headerlink" title="Example Response"></a>Example Response</h3><p>If the get employee details request is successful, the service returns a response.</p>
+<p>The body of the response contains a JSON structure similar to the following. In this case, the assumption is that the <code>&lt;ID&gt;</code> specified is <code>2</code>.</p>
+<pre><code class="highlight">[
+    {
+        &quot;EmployeeId&quot;: 2,
+        &quot;LastName&quot;: &quot;Edwards&quot;,
+        &quot;FirstName&quot;: &quot;Nancy&quot;,
+        &quot;Title&quot;: &quot;Sales Manager&quot;,
+        &quot;ReportsTo&quot;: 1,
+        &quot;BirthDate&quot;: &quot;1958-12-08 00:00:00&quot;,
+        &quot;HireDate&quot;: &quot;2002-05-01 00:00:00&quot;,
+        &quot;Address&quot;: &quot;825 8 Ave SW&quot;,
+        &quot;City&quot;: &quot;Calgary&quot;,
+        &quot;State&quot;: &quot;AB&quot;,
+        &quot;Country&quot;: &quot;Canada&quot;,
+        &quot;PostalCode&quot;: &quot;T2P 2T3&quot;,
+        &quot;Phone&quot;: &quot;+1 (403) 262-3443&quot;,
+        &quot;Fax&quot;: &quot;+1 (403) 262-3322&quot;,
+        &quot;Email&quot;: &quot;nancy@chinookcorp.com&quot;
+    }
+]
+</code></pre><p>The response contains the details of the employee which include the following parameters:</p>
+<table>
+<thead>
+<tr>
+<th>Field</th>
+<th>Description</th>
+<th>Type</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>EmployeeId</code></td>
+<td>The internal unique ID of the employee.</td>
+<td>Integer</td>
+</tr>
+<tr>
+<td><code>FirstName</code></td>
+<td>The first name of the employee.</td>
+<td>Varchar</td>
+</tr>
+<tr>
+<td><code>LastName</code></td>
+<td>The last name of the employee.</td>
+<td>Varchar</td>
+</tr>
+<tr>
+<td><code>Title</code></td>
+<td>The role of the employee in the company, for example, “General Manager”.</td>
+<td>Varchar</td>
+</tr>
+<tr>
+<td><code>ReportsTo</code></td>
+<td>The ID of the person (employee) to which the employee reports.</td>
+<td>Integer</td>
+</tr>
+<tr>
+<td><code>BirthDate</code></td>
+<td>The employee’s birth date.</td>
+<td>Varchar</td>
+</tr>
+<tr>
+<td><code>HireDate</code></td>
+<td>The date on which the employee started with the company.</td>
+<td>Varchar</td>
+</tr>
+<tr>
+<td><code>Address</code></td>
+<td>The address of the employee.</td>
+<td>Varchar</td>
+</tr>
+<tr>
+<td><code>City</code></td>
+<td>The city in which the employee is based.</td>
+<td>Varchar</td>
+</tr>
+<tr>
+<td><code>State</code></td>
+<td>The state in which the empoloyee is based.</td>
+<td>Varchar</td>
+</tr>
+<tr>
+<td><code>Country</code></td>
+<td>The country in which the employee is based.</td>
+<td>Varchar</td>
+</tr>
+<tr>
+<td><code>PostalCode</code></td>
+<td>The postal code of the employee’s location.</td>
+<td>Varchar</td>
+</tr>
+<tr>
+<td><code>Phone</code></td>
+<td>The employee’s phone number.</td>
+<td>Varchar</td>
+</tr>
+<tr>
+<td><code>Fax</code></td>
+<td>The empoloyee’s FAX number.</td>
+<td>Varchar</td>
+</tr>
+<tr>
+<td><code>Email</code></td>
+<td>The empoloyee’s email address.</td>
+<td>Varchar</td>
+</tr>
+</tbody>
+</table>
+<h3 id="Errors-5"><a href="#Errors-5" class="headerlink" title="Errors"></a>Errors</h3><p>None. If you specify an employee ID that does not exist, the response is <code>null</code>.</p>
+<h2 id="Add-an-Employee"><a href="#Add-an-Employee" class="headerlink" title="Add an Employee"></a>Add an Employee</h2><p>You add a new employee by sending an HTTP <strong>POST</strong> request with the required employee information to the <code>/api/employees</code> endpoint.</p>
+<blockquote>
+<p><strong>Note</strong></p>
+<p>The <code>FirstName</code>, <code>LastName</code>, and <code>Email</code> parameters are required and you must specify them in your request. You can optionally include other parameters in the request.</p>
+</blockquote>
+<table>
+<thead>
+<tr>
+<th>Request</th>
+<th>POST <code>/api/employees</code></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Host</strong></td>
+<td><a href="https://twiapi.herokuapp.com" target="_blank" rel="noopener">https://twiapi.herokuapp.com</a></td>
+</tr>
+<tr>
+<td><strong>Content Type</strong></td>
+<td>application/json</td>
+</tr>
+<tr>
+<td><strong>Headers</strong></td>
+<td>-</td>
+</tr>
+</tbody>
+</table>
+<h3 id="Request-Body-Payload-Example-7"><a href="#Request-Body-Payload-Example-7" class="headerlink" title="Request Body Payload Example"></a>Request Body Payload Example</h3><p>An example of the JSON structure in the request body is as follows:</p>
+<pre><code class="highlight">{
+    &quot;FirstName&quot;: &quot;John&quot;,
+    &quot;LastName&quot;: &quot;Flannery&quot;,
+    &quot;Email&quot;: &quot;john.flannery@technicallywriteit.com&quot;
+}
+</code></pre><p>The request body can include the following:</p>
+<table>
+<thead>
+<tr>
+<th>Input Parameter</th>
+<th>Description</th>
+<th>Type</th>
+<th>Size</th>
+<th>Mandatory</th>
+<th>Default Value</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>FirstName</code></td>
+<td>The first name of the employee.</td>
+<td>Varchar</td>
+<td>2-40</td>
+<td>Yes</td>
+<td>-</td>
+</tr>
+<tr>
+<td><code>LastName</code></td>
+<td>The last name of the employee.</td>
+<td>Varchar</td>
+<td>2-20</td>
+<td>Yes</td>
+<td>-</td>
+</tr>
+<tr>
+<td><code>Title</code></td>
+<td>The role of the employee in the company, for example, “General Manager”.</td>
+<td>Varchar</td>
+<td>30</td>
+<td>No</td>
+<td>-</td>
+</tr>
+<tr>
+<td><code>ReportsTo</code></td>
+<td>The ID of the person (employee) to which the employee reports.</td>
+<td>Integer</td>
+<td>-</td>
+<td>Yes</td>
+<td>-</td>
+</tr>
+<tr>
+<td><code>BirthDate</code></td>
+<td>The employee’s birth date.</td>
+<td>Datetime</td>
+<td>-</td>
+<td>Yes</td>
+<td>-</td>
+</tr>
+<tr>
+<td><code>HireDate</code></td>
+<td>The date on which the employee started with the company.</td>
+<td>Datetime</td>
+<td>-</td>
+<td>Yes</td>
+<td>-</td>
+</tr>
+<tr>
+<td><code>Address</code></td>
+<td>The address of the employee.</td>
+<td>Varchar</td>
+<td>70</td>
+<td>No</td>
+<td>-</td>
+</tr>
+<tr>
+<td><code>City</code></td>
+<td>The city in which the employee is based.</td>
+<td>Varchar</td>
+<td>40</td>
+<td>No</td>
+<td>-</td>
+</tr>
+<tr>
+<td><code>State</code></td>
+<td>The state in which the empoloyee is based.</td>
+<td>Varchar</td>
+<td>40</td>
+<td>No</td>
+<td>-</td>
+</tr>
+<tr>
+<td><code>Country</code></td>
+<td>The country in which the employee is based.</td>
+<td>Varchar</td>
+<td>40</td>
+<td>No</td>
+<td>-</td>
+</tr>
+<tr>
+<td><code>PostalCode</code></td>
+<td>The postal code of the employee’s location.</td>
+<td>Varchar</td>
+<td>40</td>
+<td>No</td>
+<td>-</td>
+</tr>
+<tr>
+<td><code>Phone</code></td>
+<td>The employee’s phone number.</td>
+<td>Varchar</td>
+<td>40</td>
+<td>No</td>
+<td>-</td>
+</tr>
+<tr>
+<td><code>Fax</code></td>
+<td>The empoloyee’s FAX number.</td>
+<td>Varchar</td>
+<td>40</td>
+<td>No</td>
+<td>-</td>
+</tr>
+<tr>
+<td><code>Email</code></td>
+<td>The empoloyee’s email address.</td>
+<td>Varchar</td>
+<td>40</td>
+<td>Yes</td>
+<td>-</td>
+</tr>
+</tbody>
+</table>
+<h3 id="Example-Response-7"><a href="#Example-Response-7" class="headerlink" title="Example Response"></a>Example Response</h3><p>If the add employee request is successful and the service allocates an <code>EmployeeID</code>, the service returns a response.</p>
+<p>The response is as follows:</p>
+<pre><code class="highlight">&quot;The employee record was added.&quot;
+</code></pre><h3 id="Errors-6"><a href="#Errors-6" class="headerlink" title="Errors"></a>Errors</h3><p>If the add employee request is not successful, the service responds with an error code, rejects the request, and does not create the employee record in the database. Some examples of error messages are provided.</p>
+<p>A parameter value is longer or shorter than the specified range. For example, if <code>FirstName</code> is shorter than two characters or longer than 40 characters, the following errors are generated:</p>
+<pre><code class="highlight">&quot;FirstName&quot; length must be at least 2 characters long&quot;
+</code></pre><p>or</p>
+<pre><code class="highlight">&quot;&quot;FirstName&quot; length must be less than or equal to 40 characters long&quot;
+</code></pre><p>If an email address is specified in an incorrect format:</p>
+<pre><code class="highlight">&quot;Email&quot; must be a valid email&quot;
+</code></pre><h2 id="Edit-Employee-Details"><a href="#Edit-Employee-Details" class="headerlink" title="Edit Employee Details"></a>Edit Employee Details</h2><p>You can edit employee details by sending an HTTP <strong>PUT</strong> request with the relevant employee information to the <code>/api/employees/&lt;ID&gt;</code> endpoint, where <code>&lt;ID&gt;</code> is the ID of the employee.</p>
+<table>
+<thead>
+<tr>
+<th>Request</th>
+<th>PUT <code>/api/customers/&lt;ID&gt;</code></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Host</strong></td>
+<td><a href="https://twiapi.herokuapp.com" target="_blank" rel="noopener">https://twiapi.herokuapp.com</a></td>
+</tr>
+<tr>
+<td><strong>Content Type</strong></td>
+<td>application/json</td>
+</tr>
+<tr>
+<td><strong>Headers</strong></td>
+<td>-</td>
+</tr>
+</tbody>
+</table>
+<h3 id="Request-Body-Payload-Example-8"><a href="#Request-Body-Payload-Example-8" class="headerlink" title="Request Body Payload Example"></a>Request Body Payload Example</h3><p>An example of the JSON structure in the request body is as follows:</p>
+<pre><code class="highlight">{
+    &quot;City&quot;: &quot;Galway&quot;,
+    &quot;Country&quot;: &quot;Ireland&quot;
+}
+</code></pre><p>The request body can include the following:</p>
+<table>
+<thead>
+<tr>
+<th>Input Parameter</th>
+<th>Description</th>
+<th>Type</th>
+<th>Size</th>
+<th>Mandatory</th>
+<th>Default Value</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>FirstName</code></td>
+<td>The first name of the employee.</td>
+<td>Varchar</td>
+<td>2-40</td>
+<td>Yes</td>
+<td>-</td>
+</tr>
+<tr>
+<td><code>LastName</code></td>
+<td>The last name of the employee.</td>
+<td>Varchar</td>
+<td>2-20</td>
+<td>Yes</td>
+<td>-</td>
+</tr>
+<tr>
+<td><code>Title</code></td>
+<td>The role of the employee in the company, for example, “General Manager”.</td>
+<td>Varchar</td>
+<td>30</td>
+<td>No</td>
+<td>-</td>
+</tr>
+<tr>
+<td><code>ReportsTo</code></td>
+<td>The ID of the person (employee) to which the employee reports.</td>
+<td>Integer</td>
+<td>-</td>
+<td>Yes</td>
+<td>-</td>
+</tr>
+<tr>
+<td><code>BirthDate</code></td>
+<td>The employee’s birth date.</td>
+<td>Datetime</td>
+<td>-</td>
+<td>Yes</td>
+<td>-</td>
+</tr>
+<tr>
+<td><code>HireDate</code></td>
+<td>The date on which the employee started with the company.</td>
+<td>Datetime</td>
+<td>-</td>
+<td>Yes</td>
+<td>-</td>
+</tr>
+<tr>
+<td><code>Address</code></td>
+<td>The address of the employee.</td>
+<td>Varchar</td>
+<td>70</td>
+<td>No</td>
+<td>-</td>
+</tr>
+<tr>
+<td><code>City</code></td>
+<td>The city in which the employee is based.</td>
+<td>Varchar</td>
+<td>40</td>
+<td>No</td>
+<td>-</td>
+</tr>
+<tr>
+<td><code>State</code></td>
+<td>The state in which the empoloyee is based.</td>
+<td>Varchar</td>
+<td>40</td>
+<td>No</td>
+<td>-</td>
+</tr>
+<tr>
+<td><code>Country</code></td>
+<td>The country in which the employee is based.</td>
+<td>Varchar</td>
+<td>40</td>
+<td>No</td>
+<td>-</td>
+</tr>
+<tr>
+<td><code>PostalCode</code></td>
+<td>The postal code of the employee’s location.</td>
+<td>Varchar</td>
+<td>40</td>
+<td>No</td>
+<td>-</td>
+</tr>
+<tr>
+<td><code>Phone</code></td>
+<td>The employee’s phone number.</td>
+<td>Varchar</td>
+<td>40</td>
+<td>No</td>
+<td>-</td>
+</tr>
+<tr>
+<td><code>Fax</code></td>
+<td>The empoloyee’s FAX number.</td>
+<td>Varchar</td>
+<td>40</td>
+<td>No</td>
+<td>-</td>
+</tr>
+<tr>
+<td><code>Email</code></td>
+<td>The empoloyee’s email address.</td>
+<td>Varchar</td>
+<td>40</td>
+<td>Yes</td>
+<td>-</td>
+</tr>
+</tbody>
+</table>
+<h3 id="Example-Response-8"><a href="#Example-Response-8" class="headerlink" title="Example Response"></a>Example Response</h3><p>If the edit employee details request is successful, the service returns a response.</p>
+<p>The response is as follows:</p>
+<pre><code class="highlight">&quot;The customer record was updated.&quot;
+</code></pre><h3 id="Errors-7"><a href="#Errors-7" class="headerlink" title="Errors"></a>Errors</h3><p>If the add customer request is not successful, the service responds with an error code, rejects the request, and does not update the customer record in the database. Some examples of error messages are provided.</p>
+<p>A parameter value is longer or shorter than the specified range. For example, if <code>Country</code> is shorter than two characters or longer than 40 characters, the following errors are generated:</p>
+<pre><code class="highlight">&quot;Country&quot; length must be at least 2 characters long&quot;
+</code></pre><p>or</p>
+<pre><code class="highlight">&quot;Country&quot; length must be less than or equal to 40 characters long&quot;
+</code></pre><h2 id="Delete-an-Employee"><a href="#Delete-an-Employee" class="headerlink" title="Delete an Employee"></a>Delete an Employee</h2><p>You delete an employee record by sending an HTTP <strong>DELETE</strong> request to the <code>/api/employees/&lt;id&gt;</code> endpoint, where <code>&lt;ID&gt;</code> is the ID of the employee record to be deleted.</p>
+<table>
+<thead>
+<tr>
+<th>Request</th>
+<th>DELETE <code>/api/employees/&lt;ID&gt;</code></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Host</strong></td>
+<td><a href="https://twiapi.herokuapp.com" target="_blank" rel="noopener">https://twiapi.herokuapp.com</a></td>
+</tr>
+<tr>
+<td><strong>Content Type</strong></td>
+<td>application/json</td>
+</tr>
+<tr>
+<td><strong>Headers</strong></td>
+<td>-</td>
+</tr>
+</tbody>
+</table>
+<h3 id="Request-Body-Payload-Example-9"><a href="#Request-Body-Payload-Example-9" class="headerlink" title="Request Body Payload Example"></a>Request Body Payload Example</h3><p>None.</p>
+<h3 id="Example-Response-9"><a href="#Example-Response-9" class="headerlink" title="Example Response"></a>Example Response</h3><p>If the delete employee request is successful, the service returns a response with a message.</p>
+<pre><code class="highlight">&quot;The employee record is deleted.&quot;
+</code></pre>
+        
+      </div>
+      <div class="dark-box">
+        
+      </div>
+    </div>
+  </body>
+</html>

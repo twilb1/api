@@ -1,0 +1,1817 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="" xml:lang="">
+<head>
+  <meta charset="utf-8" />
+  <meta name="generator" content="pandoc" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+  <title>TWi REST API Reference</title>
+  <style>
+      code{white-space: pre-wrap;}
+      span.smallcaps{font-variant: small-caps;}
+      span.underline{text-decoration: underline;}
+      div.column{display: inline-block; vertical-align: top; width: 50%;}
+  </style>
+<!--  <link rel="stylesheet" type="text/css" href="./markdown/pandoc.css" />-->
+  <style>
+  /*
+  * I add this to html files generated with pandoc.
+  */
+
+  html {
+  font-size: 100%;
+  overflow-y: scroll;
+  -webkit-text-size-adjust: 100%;
+  -ms-text-size-adjust: 100%;
+  }
+
+  body {
+  color: #444;
+  font-family: Georgia, Palatino, 'Palatino Linotype', Times, 'Times New Roman', serif;
+  font-size: 12px;
+  line-height: 1.7;
+  padding: 1em;
+  margin: auto;
+  max-width: 42em;
+  background: #fefefe;
+  }
+
+  a {
+  color: #0645ad;
+  text-decoration: none;
+  }
+
+  a:visited {
+  color: #0b0080;
+  }
+
+  a:hover {
+  color: #06e;
+  }
+
+  a:active {
+  color: #faa700;
+  }
+
+  a:focus {
+  outline: thin dotted;
+  }
+
+  *::-moz-selection {
+  background: rgba(255, 255, 0, 0.3);
+  color: #000;
+  }
+
+  *::selection {
+  background: rgba(255, 255, 0, 0.3);
+  color: #000;
+  }
+
+  a::-moz-selection {
+  background: rgba(255, 255, 0, 0.3);
+  color: #0645ad;
+  }
+
+  a::selection {
+  background: rgba(255, 255, 0, 0.3);
+  color: #0645ad;
+  }
+
+  p {
+  margin: 1em 0;
+  }
+
+  img {
+  max-width: 100%;
+  }
+
+  h1, h2, h3, h4, h5, h6 {
+  color: #111;
+  line-height: 125%;
+  margin-top: 2em;
+  font-weight: normal;
+  }
+
+  h4, h5, h6 {
+  font-weight: bold;
+  }
+
+  h1 {
+  font-size: 2.5em;
+  }
+
+  h2 {
+  font-size: 2em;
+  }
+
+  h3 {
+  font-size: 1.5em;
+  }
+
+  h4 {
+  font-size: 1.2em;
+  }
+
+  h5 {
+  font-size: 1em;
+  }
+
+  h6 {
+  font-size: 0.9em;
+  }
+
+  blockquote {
+  color: #666666;
+  margin: 0;
+  padding-left: 3em;
+  border-left: 0.5em #EEE solid;
+  }
+
+  hr {
+  display: block;
+  height: 2px;
+  border: 0;
+  border-top: 1px solid #aaa;
+  border-bottom: 1px solid #eee;
+  margin: 1em 0;
+  padding: 0;
+  }
+
+  pre, code, kbd, samp {
+  color: #000;
+  font-family: monospace, monospace;
+  _font-family: 'courier new', monospace;
+  font-size: 0.98em;
+  }
+
+  pre {
+  white-space: pre;
+  white-space: pre-wrap;
+  word-wrap: break-word;
+  }
+
+  b, strong {
+  font-weight: bold;
+  }
+
+  dfn {
+  font-style: italic;
+  }
+
+  ins {
+  background: #ff9;
+  color: #000;
+  text-decoration: none;
+  }
+
+  mark {
+  background: #ff0;
+  color: #000;
+  font-style: italic;
+  font-weight: bold;
+  }
+
+  sub, sup {
+  font-size: 75%;
+  line-height: 0;
+  position: relative;
+  vertical-align: baseline;
+  }
+
+  sup {
+  top: -0.5em;
+  }
+
+  sub {
+  bottom: -0.25em;
+  }
+
+  ul, ol {
+  margin: 1em 0;
+  padding: 0 0 0 2em;
+  }
+
+  li p:last-child {
+  margin-bottom: 0;
+  }
+
+  ul ul, ol ol {
+  margin: .3em 0;
+  }
+
+  dl {
+  margin-bottom: 1em;
+  }
+
+  dt {
+  font-weight: bold;
+  margin-bottom: .8em;
+  }
+
+  dd {
+  margin: 0 0 .8em 2em;
+  }
+
+  dd:last-child {
+  margin-bottom: 0;
+  }
+
+  img {
+  border: 0;
+  -ms-interpolation-mode: bicubic;
+  vertical-align: middle;
+  }
+
+  figure {
+  display: block;
+  text-align: center;
+  margin: 1em 0;
+  }
+
+  figure img {
+  border: none;
+  margin: 0 auto;
+  }
+
+  figcaption {
+  font-size: 0.8em;
+  font-style: italic;
+  margin: 0 0 .8em;
+  }
+
+  table {
+  margin-bottom: 2em;
+  border-bottom: 1px solid #ddd;
+  border-right: 1px solid #ddd;
+  border-spacing: 0;
+  border-collapse: collapse;
+  }
+
+  table th {
+  padding: .2em 1em;
+  background-color: #eee;
+  border-top: 1px solid #ddd;
+  border-left: 1px solid #ddd;
+  }
+
+  table td {
+  padding: .2em 1em;
+  border-top: 1px solid #ddd;
+  border-left: 1px solid #ddd;
+  vertical-align: top;
+  }
+
+  .author {
+  font-size: 1.2em;
+  text-align: center;
+  }
+
+  @media only screen and (min-width: 480px) {
+  body {
+    font-size: 14px;
+  }
+  }
+  @media only screen and (min-width: 768px) {
+  body {
+    font-size: 16px;
+  }
+  }
+  @media print {
+  * {
+    background: transparent !important;
+    color: black !important;
+    filter: none !important;
+    -ms-filter: none !important;
+  }
+
+  body {
+    font-size: 12pt;
+    max-width: 100%;
+  }
+
+  a, a:visited {
+    text-decoration: underline;
+  }
+
+  hr {
+    height: 1px;
+    border: 0;
+    border-bottom: 1px solid black;
+  }
+
+  a[href]:after {
+    content: " (" attr(href) ")";
+  }
+
+  abbr[title]:after {
+    content: " (" attr(title) ")";
+  }
+
+  .ir a:after, a[href^="javascript:"]:after, a[href^="#"]:after {
+    content: "";
+  }
+
+  pre, blockquote {
+    border: 1px solid #999;
+    padding-right: 1em;
+    page-break-inside: avoid;
+  }
+
+  tr, img {
+    page-break-inside: avoid;
+  }
+
+  img {
+    max-width: 100% !important;
+  }
+
+  @page :left {
+    margin: 15mm 20mm 15mm 10mm;
+  }
+
+  @page :right {
+    margin: 15mm 10mm 15mm 20mm;
+  }
+
+  p, h2, h3 {
+    orphans: 3;
+    widows: 3;
+  }
+
+  h2, h3 {
+    page-break-after: avoid;
+  }
+  }
+  </style>
+  <!--[if lt IE 9]>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/html5shiv/3.7.3/html5shiv-printshiv.min.js"></script>
+  <![endif]-->
+</head>
+<body>
+<header id="title-block-header">
+<h1 class="title">TWi REST API Reference</h1>
+<p class="date">2020/4/2 14:46:25</p>
+<p>Generated from Markdown (.md) source using Pandoc.</p>
+</header>
+<nav id="TOC" role="doc-toc">
+<ul>
+<li><a href="#rest-api-overview">REST API Overview</a></li>
+<li><a href="#application-database">Application Database</a></li>
+<li><a href="#getting-started">Getting Started</a><ul>
+<li><a href="#postman">Postman</a></li>
+</ul></li>
+<li><a href="#managing-information-in-the-database">Managing Information in the Database</a><ul>
+<li><a href="#customer-management">Customer Management</a></li>
+<li><a href="#employee-management">Employee Management</a></li>
+</ul></li>
+<li><a href="#customers">Customers</a><ul>
+<li><a href="#view-details-of-all-customers">View Details of all Customers</a><ul>
+<li><a href="#request-body-payload-example">Request Body Payload Example</a></li>
+<li><a href="#example-response">Example Response</a></li>
+<li><a href="#errors">Errors</a></li>
+</ul></li>
+<li><a href="#view-details-of-a-single-customer">View Details of a Single Customer</a><ul>
+<li><a href="#request-body-payload-example-1">Request Body Payload Example</a></li>
+<li><a href="#example-response-1">Example Response</a></li>
+<li><a href="#errors-1">Errors</a></li>
+</ul></li>
+<li><a href="#add-a-new-customer">Add a New Customer</a><ul>
+<li><a href="#request-body-payload-example-2">Request Body Payload Example</a></li>
+<li><a href="#example-response-2">Example Response</a></li>
+<li><a href="#errors-2">Errors</a></li>
+</ul></li>
+<li><a href="#edit-customer-details">Edit Customer Details</a><ul>
+<li><a href="#request-body-payload-example-3">Request Body Payload Example</a></li>
+<li><a href="#example-response-3">Example Response</a></li>
+<li><a href="#errors-3">Errors</a></li>
+</ul></li>
+<li><a href="#delete-a-customer">Delete a Customer</a><ul>
+<li><a href="#request-body-payload-example-4">Request Body Payload Example</a></li>
+<li><a href="#example-response-4">Example Response</a></li>
+</ul></li>
+</ul></li>
+<li><a href="#employees">Employees</a><ul>
+<li><a href="#view-details-of-all-employees">View Details of All Employees</a><ul>
+<li><a href="#request-body-payload-example-5">Request Body Payload Example</a></li>
+<li><a href="#example-response-5">Example Response</a></li>
+<li><a href="#errors-4">Errors</a></li>
+</ul></li>
+<li><a href="#view-details-of-a-single-employee">View Details of a Single Employee</a><ul>
+<li><a href="#request-body-payload-example-6">Request Body Payload Example</a></li>
+<li><a href="#example-response-6">Example Response</a></li>
+<li><a href="#errors-5">Errors</a></li>
+</ul></li>
+<li><a href="#add-an-employee">Add an Employee</a><ul>
+<li><a href="#request-body-payload-example-7">Request Body Payload Example</a></li>
+<li><a href="#example-response-7">Example Response</a></li>
+<li><a href="#errors-6">Errors</a></li>
+</ul></li>
+<li><a href="#edit-employee-details">Edit Employee Details</a><ul>
+<li><a href="#request-body-payload-example-8">Request Body Payload Example</a></li>
+<li><a href="#example-response-8">Example Response</a></li>
+<li><a href="#errors-7">Errors</a></li>
+</ul></li>
+<li><a href="#delete-an-employee">Delete an Employee</a><ul>
+<li><a href="#request-body-payload-example-9">Request Body Payload Example</a></li>
+<li><a href="#example-response-9">Example Response</a></li>
+</ul></li>
+</ul></li>
+</ul>
+</nav>
+<h1 id="rest-api-overview">REST API Overview</h1>
+<p>Technically Write IT (TWi) Ltd. provides an example service to demonstrate a real-world REST API in action. Clients can send HTTP requests to service endpoints and receive responses. This document describes the Application Programming Interface (API) that enables client-side application developers to communicate with the service.</p>
+<p>Using the API, developers can perform Create, Read, Update, and Delete (CRUD) operations on database objects using the following REST API requests:</p>
+<ul>
+<li><p>GET requests - to read information from the database tables</p></li>
+<li><p>POST requests - to create records in database tables</p></li>
+<li><p>PUT requests - to update records in database tables</p></li>
+<li><p>DELETE requests - to delete records from the database tables</p></li>
+</ul>
+<p>This document describes the details of the requests that can be issued, including:</p>
+<ul>
+<li><p>The type of the request</p></li>
+<li><p>Required and optional parameters</p></li>
+<li><p>Limitation of parameters, such as the length of a parameter string</p></li>
+<li><p>Status codes that indicate if the request was successful or resulted in an error</p></li>
+<li><p>Error messages</p></li>
+</ul>
+<h1 id="application-database">Application Database</h1>
+<p>To demonstrate REST API capabilities we are using the sample database that comes with SQLite. SQLite is a software library that provides a relational database management system and is popular for developing small-scale applications.</p>
+<figure>
+<img src="https://twiapi.herokuapp.com/images/SQLite_Tutorial_DB.jpg" style="width:100%"><figcaption>SQLite Tutorial Database Entity-Relationship (ER) Diagram</figcaption>
+</figure>
+<h1 id="getting-started">Getting Started</h1>
+<p>Getting started could not be simpler! To get information about all the customers registerd in the database enter the following command in your favorite browser:</p>
+<pre><code>https://twiapi.herokuapp.com/api/customers</code></pre>
+<p>You get a response in JavaScript Object Notation (JSON) format showing the details of each customer in the database.</p>
+<p>Similarly, to get information about all the employees in the database, enter the following command in your favorite browser:</p>
+<pre><code>https://twiapi.herokuapp.com/api/employees</code></pre>
+<p>You get a response in JSON format showing the details of each employee in the database.</p>
+<p>In a browser URL, it is only possible to issue GET requests. To issue more complicated REST requests, you can use a tool called <code>Postman</code>.</p>
+<h2 id="postman">Postman</h2>
+<p>Postman is an online platform that allows API developers to collaborate on the development of REST API applications. The part we are most interested in is the <a href="https://www.postman.com/product/api-client" target="_blank">Postman API Client</a>.</p>
+<p>We can use this client to send all types of requests to our REST API (or any REST API) and view the responses, status codes, and error messages. It is the ideal tool for REST API testing.</p>
+<p>The Postman API Client is freely available from it <a href="https://www.postman.com/downloads/" target="_blank">download</a> page.</p>
+<p>The Postman API Client user interface is quite intuitive, but to help you get started, check out Postman's own <a href="https://learning.postman.com/docs/postman/launching-postman/introduction/" target="_blank">documentation</a>.</p>
+<h1 id="managing-information-in-the-database">Managing Information in the Database</h1>
+<p>You can use the TWi REST API for:</p>
+<ul>
+<li><p><a href="#customer-management">Customer Management</a></p></li>
+<li><p><a href="#employee-management">Employee Management</a></p></li>
+</ul>
+<h2 id="customer-management">Customer Management</h2>
+<p>You can view and edit the information retained in the database for customers. This information includes:</p>
+<ul>
+<li><p>Customer ID</p></li>
+<li><p>First Name (required)</p></li>
+<li><p>Last Name (required)</p></li>
+<li><p>Company</p></li>
+<li><p>Address</p></li>
+<li><p>City</p></li>
+<li><p>State</p></li>
+<li><p>Country</p></li>
+<li><p>Postal Code</p></li>
+<li><p>Phone</p></li>
+<li><p>Fax</p></li>
+<li><p>Email (required)</p></li>
+<li><p>Support Representative ID</p></li>
+</ul>
+<p>The Customer ID is generated automatically by the database, and it cannot be changed. Attempting to do so results in an error.</p>
+<p>The First Name, Last Name, and Email are required fields, so you must specify them when adding a new customer. If you do not specify these fields when adding a customer, you receive an error.</p>
+<p>The Support Representative ID is the ID of an employee that is assigned to the customer.</p>
+<p>Using the TWi REST API, you can:</p>
+<ul>
+<li><p><a href="#view-details-of-all-customers">View details of all customers</a></p></li>
+<li><p><a href="#view-details-of-a-single-customer">View details of a single customer</a></p></li>
+<li><p><a href="#add-a-new-customer">Add a new customer</a></p></li>
+<li><p><a href="#edit-customer-details">Edit customer details</a></p></li>
+<li><p><a href="#delete-a-customer">Delete a customer</a></p></li>
+</ul>
+<h2 id="employee-management">Employee Management</h2>
+<p>You can view and edit the information retained in the database for employees. This information includes:</p>
+<ul>
+<li><p>Employee ID</p></li>
+<li><p>Last Name (required)</p></li>
+<li><p>First Name (required)</p></li>
+<li><p>Title</p></li>
+<li><p>Reports To</p></li>
+<li><p>Birth Date</p></li>
+<li><p>Hire Date</p></li>
+<li><p>Address</p></li>
+<li><p>City</p></li>
+<li><p>State</p></li>
+<li><p>Country</p></li>
+<li><p>Postal Code</p></li>
+<li><p>Phone</p></li>
+<li><p>Fax</p></li>
+<li><p>Email (required)</p></li>
+</ul>
+<p>The Employee ID is generated automatically by the database, and it cannot be changed. Attempting to do so results in an error.</p>
+<p>The First Name, Last Name, and Email are required fields, so you must specify them when adding a new employee. If you do not specify these fields when adding an employee, you receive an error.</p>
+<p>The Reports To parameter is the ID of an employee that the employee reports to.</p>
+<p>Using the TWi REST API, you can:</p>
+<ul>
+<li><p><a href="#view-details-of-all-employees">View details of all empoloyees</a></p></li>
+<li><p><a href="#view-details-of-a-single-employee">View details of a single employee</a></p></li>
+<li><p><a href="#add-a-new-employee">Add a new employee</a></p></li>
+<li><p><a href="#edit-employee-details">Edit empoloyee details</a></p></li>
+<li><p><a href="#delete-an-employee">Delete an employee</a></p></li>
+</ul>
+<h1 id="customers">Customers</h1>
+<h2 id="view-details-of-all-customers">View Details of all Customers</h2>
+<p>You can get a list of all customers with details by sending an HTTP <strong>GET</strong> request to the <code>/api/customers</code> endpoint.</p>
+<table>
+<thead>
+<tr class="header">
+<th>Request</th>
+<th>POST <code>/api/customers</code></th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><strong>Host</strong></td>
+<td>https://twiapi.herokuapp.com</td>
+</tr>
+<tr class="even">
+<td><strong>Content Type</strong></td>
+<td>application/json</td>
+</tr>
+<tr class="odd">
+<td><strong>Headers</strong></td>
+<td>-</td>
+</tr>
+</tbody>
+</table>
+<h3 id="request-body-payload-example">Request Body Payload Example</h3>
+<p>None.</p>
+<h3 id="example-response">Example Response</h3>
+<p>If the get customer details request is successful, the service returns a response.</p>
+<p>The body of the response contains a JSON structure as follows:</p>
+<pre><code>[
+    {
+        &quot;CustomerId&quot;: 1,
+        &quot;FirstName&quot;: &quot;Luis&quot;,
+        &quot;LastName&quot;: &quot;Goncalves&quot;,
+        &quot;Company&quot;: &quot;Embraer - Empresa Brasileira de Aeronautica S.A.&quot;,
+        &quot;Address&quot;: &quot;Av. Brigadeiro Faria Lima, 2170&quot;,
+        &quot;City&quot;: &quot;Sao Jose dos Campos&quot;,
+        &quot;State&quot;: &quot;SP&quot;,
+        &quot;Country&quot;: &quot;Brazil&quot;,
+        &quot;PostalCode&quot;: &quot;12227-000&quot;,
+        &quot;Phone&quot;: &quot;+55 (12) 3923-5555&quot;,
+        &quot;Fax&quot;: &quot;+55 (12) 3923-5566&quot;,
+        &quot;Email&quot;: &quot;luisg@embraer.com.br&quot;,
+        &quot;SupportRepId&quot;: 3
+    },
+    {
+        &quot;CustomerId&quot;: 2,
+        &quot;FirstName&quot;: &quot;Leonie&quot;,
+        &quot;LastName&quot;: &quot;Kohler&quot;,
+        &quot;Company&quot;: null,
+        &quot;Address&quot;: &quot;Theodor-Heuss-Strasse 34&quot;,
+        &quot;City&quot;: &quot;Stuttgart&quot;,
+        &quot;State&quot;: null,
+        &quot;Country&quot;: &quot;Germany&quot;,
+        &quot;PostalCode&quot;: &quot;70174&quot;,
+        &quot;Phone&quot;: &quot;+49 0711 2842222&quot;,
+        &quot;Fax&quot;: null,
+        &quot;Email&quot;: &quot;leonekohler@surfeu.de&quot;,
+        &quot;SupportRepId&quot;: 5
+    },
+    ...
+]</code></pre>
+<p>The response contains a list of the details for each customer. The customer details include the following parameters:</p>
+<table>
+<thead>
+<tr class="header">
+<th>Field</th>
+<th>Description</th>
+<th>Type</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><code>CustomerId</code></td>
+<td>The internal unique ID of the customer, for example 7.</td>
+<td>Integer</td>
+</tr>
+<tr class="even">
+<td><code>FirstName</code></td>
+<td>The first name of the customer.</td>
+<td>Varchar</td>
+</tr>
+<tr class="odd">
+<td><code>LastName</code></td>
+<td>The last name of the customer.</td>
+<td>Varchar</td>
+</tr>
+<tr class="even">
+<td><code>Company</code></td>
+<td>The name of the customers company.</td>
+<td>Varchar</td>
+</tr>
+<tr class="odd">
+<td><code>Address</code></td>
+<td>The address of the customer.</td>
+<td>Varchar</td>
+</tr>
+<tr class="even">
+<td><code>City</code></td>
+<td>The city in which the customer is based.</td>
+<td>Varchar</td>
+</tr>
+<tr class="odd">
+<td><code>State</code></td>
+<td>The state in which the customer is based.</td>
+<td>Varchar</td>
+</tr>
+<tr class="even">
+<td><code>Country</code></td>
+<td>The country in which the customer is based.</td>
+<td>Varchar</td>
+</tr>
+<tr class="odd">
+<td><code>PostalCode</code></td>
+<td>The postal code of the customer’s location.</td>
+<td>Varchar</td>
+</tr>
+<tr class="even">
+<td><code>Phone</code></td>
+<td>The customer’s phone number.</td>
+<td>Varchar</td>
+</tr>
+<tr class="odd">
+<td><code>Fax</code></td>
+<td>The customer’s FAX number.</td>
+<td>Varchar</td>
+</tr>
+<tr class="even">
+<td><code>Email</code></td>
+<td>The customer’s email address.</td>
+<td>Varchar</td>
+</tr>
+<tr class="odd">
+<td><code>SupportRepId</code></td>
+<td>The ID of the employee assigned to the customer.</td>
+<td>Integer</td>
+</tr>
+</tbody>
+</table>
+<h3 id="errors">Errors</h3>
+<p>None.</p>
+<h2 id="view-details-of-a-single-customer">View Details of a Single Customer</h2>
+<p>You can get details of a specific customer by sending an HTTP <strong>GET</strong> request to the <code>/api/customers/&lt;ID&gt;</code> endpoint, where <code>&lt;ID&gt;</code> is a placeholder for an actual employee ID.</p>
+<table>
+<thead>
+<tr class="header">
+<th>Request</th>
+<th>POST <code>/api/customers/&lt;ID&gt;</code></th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><strong>Host</strong></td>
+<td>https://twiapi.herokuapp.com</td>
+</tr>
+<tr class="even">
+<td><strong>Content Type</strong></td>
+<td>application/json</td>
+</tr>
+<tr class="odd">
+<td><strong>Headers</strong></td>
+<td>-</td>
+</tr>
+</tbody>
+</table>
+<h3 id="request-body-payload-example-1">Request Body Payload Example</h3>
+<p>None.</p>
+<h3 id="example-response-1">Example Response</h3>
+<p>If the get customer details request is successful, the service returns a response.</p>
+<p>The body of the response contains a JSON structure similar to the following. The assumption is that the <code>&lt;ID&gt;</code> specified was <code>2</code>.</p>
+<pre><code>[
+    {
+        &quot;CustomerId&quot;: 2,
+        &quot;FirstName&quot;: &quot;Leonie&quot;,
+        &quot;LastName&quot;: &quot;Kohler&quot;,
+        &quot;Company&quot;: null,
+        &quot;Address&quot;: &quot;Theodor-Heuss-Strasse 34&quot;,
+        &quot;City&quot;: &quot;Stuttgart&quot;,
+        &quot;State&quot;: null,
+        &quot;Country&quot;: &quot;Germany&quot;,
+        &quot;PostalCode&quot;: &quot;70174&quot;,
+        &quot;Phone&quot;: &quot;+49 0711 2842222&quot;,
+        &quot;Fax&quot;: null,
+        &quot;Email&quot;: &quot;leonekohler@surfeu.de&quot;,
+        &quot;SupportRepId&quot;: 5
+    }
+]</code></pre>
+<p>The response contains a list of the details for the customer. The customer details include the following parameters:</p>
+<table>
+<thead>
+<tr class="header">
+<th>Field</th>
+<th>Description</th>
+<th>Type</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><code>CustomerId</code></td>
+<td>The internal unique ID of the customer, in this case 2.</td>
+<td>Integer</td>
+</tr>
+<tr class="even">
+<td><code>FirstName</code></td>
+<td>The first name of the customer.</td>
+<td>Varchar</td>
+</tr>
+<tr class="odd">
+<td><code>LastName</code></td>
+<td>The last name of the customer.</td>
+<td>Varchar</td>
+</tr>
+<tr class="even">
+<td><code>Company</code></td>
+<td>The name of the customers company.</td>
+<td>Varchar</td>
+</tr>
+<tr class="odd">
+<td><code>Address</code></td>
+<td>The address of the customer.</td>
+<td>Varchar</td>
+</tr>
+<tr class="even">
+<td><code>City</code></td>
+<td>The city in which the customer is based.</td>
+<td>Varchar</td>
+</tr>
+<tr class="odd">
+<td><code>State</code></td>
+<td>The state in which the customer is based.</td>
+<td>Varchar</td>
+</tr>
+<tr class="even">
+<td><code>Country</code></td>
+<td>The country in which the customer is based.</td>
+<td>Varchar</td>
+</tr>
+<tr class="odd">
+<td><code>PostalCode</code></td>
+<td>The postal code of the customer’s location.</td>
+<td>Varchar</td>
+</tr>
+<tr class="even">
+<td><code>Phone</code></td>
+<td>The customer’s phone number.</td>
+<td>Varchar</td>
+</tr>
+<tr class="odd">
+<td><code>Fax</code></td>
+<td>The customer’s FAX number.</td>
+<td>Varchar</td>
+</tr>
+<tr class="even">
+<td><code>Email</code></td>
+<td>The customer’s email address.</td>
+<td>Varchar</td>
+</tr>
+<tr class="odd">
+<td><code>SupportRepId</code></td>
+<td>The ID of the employee assigned to the customer.</td>
+<td>Integer</td>
+</tr>
+</tbody>
+</table>
+<h3 id="errors-1">Errors</h3>
+<p>None. If you specify an customer ID that does not exist, the response is <code>null</code>.</p>
+<h2 id="add-a-new-customer">Add a New Customer</h2>
+<p>You add a new customer by sending an HTTP <strong>POST</strong> request with the required customer information to the <code>/api/customers</code> endpoint.</p>
+<blockquote>
+<p><strong>Note</strong></p>
+<p>The <code>FirstName</code>, <code>LastName</code>, and <code>Email</code> parameters are required and you must specify them in your request. You can optionally include other parameters in the request.</p>
+</blockquote>
+<table>
+<thead>
+<tr class="header">
+<th>Request</th>
+<th>POST <code>/api/customers</code></th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><strong>Host</strong></td>
+<td>https://twiapi.herokuapp.com</td>
+</tr>
+<tr class="even">
+<td><strong>Content Type</strong></td>
+<td>application/json</td>
+</tr>
+<tr class="odd">
+<td><strong>Headers</strong></td>
+<td>-</td>
+</tr>
+</tbody>
+</table>
+<h3 id="request-body-payload-example-2">Request Body Payload Example</h3>
+<p>An example of the JSON structure in the request body is as follows:</p>
+<pre><code>{
+    &quot;FirstName&quot;: &quot;Len&quot;,
+    &quot;LastName&quot;: &quot;Baker&quot;,
+    &quot;Email&quot;: &quot;len.baker@technicallywriteit.com&quot;
+}</code></pre>
+<p>The request body can include the following:</p>
+<table>
+<thead>
+<tr class="header">
+<th>Input Parameter</th>
+<th>Description</th>
+<th>Type</th>
+<th>Size</th>
+<th>Mandatory</th>
+<th>Default Value</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><code>FirstName</code></td>
+<td>The first name of the customer.</td>
+<td>Varchar</td>
+<td>2-40</td>
+<td>Yes</td>
+<td>-</td>
+</tr>
+<tr class="even">
+<td><code>LastName</code></td>
+<td>The last name of the customer.</td>
+<td>Varchar</td>
+<td>2-20</td>
+<td>Yes</td>
+<td>-</td>
+</tr>
+<tr class="odd">
+<td><code>Company</code></td>
+<td>The name of the customers company.</td>
+<td>Varchar</td>
+<td>80</td>
+<td>No</td>
+<td>-</td>
+</tr>
+<tr class="even">
+<td><code>Address</code></td>
+<td>The address of the customer.</td>
+<td>Varchar</td>
+<td>70</td>
+<td>No</td>
+<td>-</td>
+</tr>
+<tr class="odd">
+<td><code>City</code></td>
+<td>The city in which the customer is based.</td>
+<td>Varchar</td>
+<td>40</td>
+<td>No</td>
+<td>-</td>
+</tr>
+<tr class="even">
+<td><code>State</code></td>
+<td>The state in which the customer is based.</td>
+<td>Varchar</td>
+<td>40</td>
+<td>No</td>
+<td>-</td>
+</tr>
+<tr class="odd">
+<td><code>Country</code></td>
+<td>The country in which the customer is based.</td>
+<td>Varchar</td>
+<td>40</td>
+<td>No</td>
+<td>-</td>
+</tr>
+<tr class="even">
+<td><code>PostalCode</code></td>
+<td>The postal code of the customer’s location.</td>
+<td>Varchar</td>
+<td>40</td>
+<td>No</td>
+<td>-</td>
+</tr>
+<tr class="odd">
+<td><code>Phone</code></td>
+<td>The customer’s phone number.</td>
+<td>Varchar</td>
+<td>40</td>
+<td>No</td>
+<td>-</td>
+</tr>
+<tr class="even">
+<td><code>Fax</code></td>
+<td>The customer’s FAX number.</td>
+<td>Varchar</td>
+<td>40</td>
+<td>No</td>
+<td>-</td>
+</tr>
+<tr class="odd">
+<td><code>Email</code></td>
+<td>The customer’s email address.</td>
+<td>Varchar</td>
+<td>40</td>
+<td>Yes</td>
+<td>-</td>
+</tr>
+<tr class="even">
+<td><code>SupportRepId</code></td>
+<td>The ID of the employee assigned to the customer.</td>
+<td>Varchar</td>
+<td>40</td>
+<td>No</td>
+<td>-</td>
+</tr>
+</tbody>
+</table>
+<h3 id="example-response-2">Example Response</h3>
+<p>If the add customer request is successful and the service allocates a <code>CustomerID</code>, the service returns a response.</p>
+<p>The response is as follows:</p>
+<pre><code>    &quot;The customer record was added.&quot;</code></pre>
+<h3 id="errors-2">Errors</h3>
+<p>If the add customer request is not successful, the service responds with an error code, rejects the request, and does not create the customer record in the database. Some examples of error messages are provided.</p>
+<p>A parameter value is longer or shorter than the specified range. For example, if <code>FirstName</code> is shorter than two characters or longer than 40 characters, the following errors are generated:</p>
+<pre><code>    &quot;FirstName&quot; length must be at least 2 characters long&quot;</code></pre>
+<p>or</p>
+<pre><code>    &quot;FirstName&quot; length must be less than or equal to 40 characters long&quot;</code></pre>
+<p>If an email address is specified in an incorrect format:</p>
+<pre><code>    &quot;Email&quot; must be a valid email&quot;</code></pre>
+<h2 id="edit-customer-details">Edit Customer Details</h2>
+<p>You can edit customer details by sending an HTTP <strong>PUT</strong> request with the relevant customer information to the <code>/api/customers/&lt;ID&gt;</code> endpoint, where <code>&lt;ID&gt;</code> is the ID of the customer.</p>
+<table>
+<thead>
+<tr class="header">
+<th>Request</th>
+<th>PUT <code>/api/customers/&lt;ID&gt;</code></th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><strong>Host</strong></td>
+<td>https://twiapi.herokuapp.com</td>
+</tr>
+<tr class="even">
+<td><strong>Content Type</strong></td>
+<td>application/json</td>
+</tr>
+<tr class="odd">
+<td><strong>Headers</strong></td>
+<td>-</td>
+</tr>
+</tbody>
+</table>
+<h3 id="request-body-payload-example-3">Request Body Payload Example</h3>
+<p>An example of the JSON structure in the request body is as follows:</p>
+<pre><code>{
+    &quot;City&quot;: &quot;Cork&quot;,
+    &quot;Country&quot;: &quot;Ireland&quot;,
+    &quot;Phone&quot;: &quot;+353 (0) 21 2428800&quot;
+}</code></pre>
+<p>The request body can include the following:</p>
+<table>
+<thead>
+<tr class="header">
+<th>Input Parameter</th>
+<th>Description</th>
+<th>Type</th>
+<th>Size</th>
+<th>Mandatory</th>
+<th>Default Value</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><code>FirstName</code></td>
+<td>The first name of the customer.</td>
+<td>Varchar</td>
+<td>2-40</td>
+<td>Yes</td>
+<td>-</td>
+</tr>
+<tr class="even">
+<td><code>LastName</code></td>
+<td>The last name of the customer.</td>
+<td>Varchar</td>
+<td>2-20</td>
+<td>Yes</td>
+<td>-</td>
+</tr>
+<tr class="odd">
+<td><code>Company</code></td>
+<td>The name of the customers company.</td>
+<td>Varchar</td>
+<td>80</td>
+<td>No</td>
+<td>-</td>
+</tr>
+<tr class="even">
+<td><code>Address</code></td>
+<td>The address of the customer.</td>
+<td>Varchar</td>
+<td>70</td>
+<td>No</td>
+<td>-</td>
+</tr>
+<tr class="odd">
+<td><code>City</code></td>
+<td>The city in which the customer is based.</td>
+<td>Varchar</td>
+<td>40</td>
+<td>No</td>
+<td>-</td>
+</tr>
+<tr class="even">
+<td><code>State</code></td>
+<td>The state in which the customer is based.</td>
+<td>Varchar</td>
+<td>40</td>
+<td>No</td>
+<td>-</td>
+</tr>
+<tr class="odd">
+<td><code>Country</code></td>
+<td>The country in which the customer is based.</td>
+<td>Varchar</td>
+<td>40</td>
+<td>No</td>
+<td>-</td>
+</tr>
+<tr class="even">
+<td><code>PostalCode</code></td>
+<td>The postal code of the customer’s location.</td>
+<td>Varchar</td>
+<td>40</td>
+<td>No</td>
+<td>-</td>
+</tr>
+<tr class="odd">
+<td><code>Phone</code></td>
+<td>The customer’s phone number.</td>
+<td>Varchar</td>
+<td>40</td>
+<td>No</td>
+<td>-</td>
+</tr>
+<tr class="even">
+<td><code>Fax</code></td>
+<td>The customer’s FAX number.</td>
+<td>Varchar</td>
+<td>40</td>
+<td>No</td>
+<td>-</td>
+</tr>
+<tr class="odd">
+<td><code>Email</code></td>
+<td>The customer’s email address.</td>
+<td>Varchar</td>
+<td>40</td>
+<td>Yes</td>
+<td>-</td>
+</tr>
+<tr class="even">
+<td><code>SupportRepId</code></td>
+<td>The ID of the employee assigned to the customer.</td>
+<td>Varchar</td>
+<td>40</td>
+<td>No</td>
+<td>-</td>
+</tr>
+</tbody>
+</table>
+<h3 id="example-response-3">Example Response</h3>
+<p>If the edit customer details request is successful, the service returns a response.</p>
+<p>The response is as follows:</p>
+<pre><code>    &quot;The customer record was updated.&quot;</code></pre>
+<h3 id="errors-3">Errors</h3>
+<p>If the edit customer details request is not successful, the service responds with an error code, rejects the request, and does not update the customer record in the database. Some examples of error messages are provided.</p>
+<p>A parameter value is longer or shorter than the specified range. For example, if <code>City</code> is shorter than two characters or longer than 40 characters, the following errors are generated:</p>
+<pre><code>    &quot;City&quot; length must be at least 2 characters long&quot;</code></pre>
+<p>or</p>
+<pre><code>    &quot;City&quot; length must be less than or equal to 40 characters long&quot;</code></pre>
+<p>If an email address is specified in an incorrect format:</p>
+<pre><code>    &quot;Email&quot; must be a valid email&quot;</code></pre>
+<h2 id="delete-a-customer">Delete a Customer</h2>
+<p>You delete a customer record by sending an HTTP <strong>DELETE</strong> request to the <code>/api/customers/&lt;id&gt;</code> endpoint, where <code>&lt;ID&gt;</code> is the ID of the customer record to be deleted.</p>
+<table>
+<thead>
+<tr class="header">
+<th>Request</th>
+<th>DELETE <code>/api/customers/&lt;ID&gt;</code></th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><strong>Host</strong></td>
+<td>https://twiapi.herokuapp.com</td>
+</tr>
+<tr class="even">
+<td><strong>Content Type</strong></td>
+<td>application/json</td>
+</tr>
+<tr class="odd">
+<td><strong>Headers</strong></td>
+<td>-</td>
+</tr>
+</tbody>
+</table>
+<h3 id="request-body-payload-example-4">Request Body Payload Example</h3>
+<p>None.</p>
+<h3 id="example-response-4">Example Response</h3>
+<p>If the delete customer request is successful, the service returns a response with a message.</p>
+<pre><code>    &quot;The customer record is deleted.&quot;</code></pre>
+<h1 id="employees">Employees</h1>
+<h2 id="view-details-of-all-employees">View Details of All Employees</h2>
+<p>You can get a list of all employees with details by sending an HTTP <strong>GET</strong> request to the <code>/api/employees</code> endpoint.</p>
+<table>
+<thead>
+<tr class="header">
+<th>Request</th>
+<th>POST <code>/api/employees</code></th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><strong>Host</strong></td>
+<td>https://twiapi.herokuapp.com</td>
+</tr>
+<tr class="even">
+<td><strong>Content Type</strong></td>
+<td>application/json</td>
+</tr>
+<tr class="odd">
+<td><strong>Headers</strong></td>
+<td>-</td>
+</tr>
+</tbody>
+</table>
+<h3 id="request-body-payload-example-5">Request Body Payload Example</h3>
+<p>None.</p>
+<h3 id="example-response-5">Example Response</h3>
+<p>If the get employee details request is successful, the service returns a response.</p>
+<p>The body of the response contains a JSON structure as follows:</p>
+<pre><code>[
+    {
+        &quot;EmployeeId&quot;: 1,
+        &quot;LastName&quot;: &quot;Adams&quot;,
+        &quot;FirstName&quot;: &quot;Andrew&quot;,
+        &quot;Title&quot;: &quot;General Manager&quot;,
+        &quot;ReportsTo&quot;: null,
+        &quot;BirthDate&quot;: &quot;1962-02-18 00:00:00&quot;,
+        &quot;HireDate&quot;: &quot;2002-08-14 00:00:00&quot;,
+        &quot;Address&quot;: &quot;11120 Jasper Ave NW&quot;,
+        &quot;City&quot;: &quot;Edmonton&quot;,
+        &quot;State&quot;: &quot;AB&quot;,
+        &quot;Country&quot;: &quot;Canada&quot;,
+        &quot;PostalCode&quot;: &quot;T5K 2N1&quot;,
+        &quot;Phone&quot;: &quot;+1 (780) 428-9482&quot;,
+        &quot;Fax&quot;: &quot;+1 (780) 428-3457&quot;,
+        &quot;Email&quot;: &quot;andrew@chinookcorp.com&quot;
+    },
+    {
+        &quot;EmployeeId&quot;: 2,
+        &quot;LastName&quot;: &quot;Edwards&quot;,
+        &quot;FirstName&quot;: &quot;Nancy&quot;,
+        &quot;Title&quot;: &quot;Sales Manager&quot;,
+        &quot;ReportsTo&quot;: 1,
+        &quot;BirthDate&quot;: &quot;1958-12-08 00:00:00&quot;,
+        &quot;HireDate&quot;: &quot;2002-05-01 00:00:00&quot;,
+        &quot;Address&quot;: &quot;825 8 Ave SW&quot;,
+        &quot;City&quot;: &quot;Calgary&quot;,
+        &quot;State&quot;: &quot;AB&quot;,
+        &quot;Country&quot;: &quot;Canada&quot;,
+        &quot;PostalCode&quot;: &quot;T2P 2T3&quot;,
+        &quot;Phone&quot;: &quot;+1 (403) 262-3443&quot;,
+        &quot;Fax&quot;: &quot;+1 (403) 262-3322&quot;,
+        &quot;Email&quot;: &quot;nancy@chinookcorp.com&quot;
+    },
+    ...
+]</code></pre>
+<p>The response contains a list of the details for each employee. The employee details include the following parameters:</p>
+<table>
+<colgroup>
+<col style="width: 33%" />
+<col style="width: 33%" />
+<col style="width: 33%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th>Field</th>
+<th>Description</th>
+<th>Type</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><code>EmployeeId</code></td>
+<td>The internal unique ID of the employee, for example 7.</td>
+<td>Integer</td>
+</tr>
+<tr class="even">
+<td><code>FirstName</code></td>
+<td>The first name of the employee.</td>
+<td>Varchar</td>
+</tr>
+<tr class="odd">
+<td><code>LastName</code></td>
+<td>The last name of the empoloyee.</td>
+<td>Varchar</td>
+</tr>
+<tr class="even">
+<td><code>Title</code></td>
+<td>The role of the employee in the company, for example, “General Manager”.</td>
+<td>Varchar</td>
+</tr>
+<tr class="odd">
+<td><code>ReportsTo</code></td>
+<td>The ID of the person (employee) to which the employee reports.</td>
+<td>Integer</td>
+</tr>
+<tr class="even">
+<td><code>BirthDate</code></td>
+<td>The employee’s birth date.</td>
+<td>Varchar</td>
+</tr>
+<tr class="odd">
+<td><code>HireDate</code></td>
+<td>The date on which the employee started with the company.</td>
+<td>Varchar</td>
+</tr>
+<tr class="even">
+<td><code>Address</code></td>
+<td>The address of the employee.</td>
+<td>Varchar</td>
+</tr>
+<tr class="odd">
+<td><code>City</code></td>
+<td>The city in which the employee is based.</td>
+<td>Varchar</td>
+</tr>
+<tr class="even">
+<td><code>State</code></td>
+<td>The state in which the empoloyee is based.</td>
+<td>Varchar</td>
+</tr>
+<tr class="odd">
+<td><code>Country</code></td>
+<td>The country in which the employee is based.</td>
+<td>Varchar</td>
+</tr>
+<tr class="even">
+<td><code>PostalCode</code></td>
+<td>The postal code of the employee’s location.</td>
+<td>Varchar</td>
+</tr>
+<tr class="odd">
+<td><code>Phone</code></td>
+<td>The employee’s phone number.</td>
+<td>Varchar</td>
+</tr>
+<tr class="even">
+<td><code>Fax</code></td>
+<td>The empoloyee’s FAX number.</td>
+<td>Varchar</td>
+</tr>
+<tr class="odd">
+<td><code>Email</code></td>
+<td>The empoloyee’s email address.</td>
+<td>Varchar</td>
+</tr>
+</tbody>
+</table>
+<h3 id="errors-4">Errors</h3>
+<p>None.</p>
+<h2 id="view-details-of-a-single-employee">View Details of a Single Employee</h2>
+<p>You can get details of a specific employee by sending an HTTP <strong>GET</strong> request to the <code>/api/customers/&lt;ID&gt;</code> endpoint, where <code>&lt;ID&gt;</code> is a placeholder for an actual employee ID.</p>
+<table>
+<thead>
+<tr class="header">
+<th>Request</th>
+<th>POST <code>/api/employees/&lt;ID&gt;</code></th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><strong>Host</strong></td>
+<td>https://twiapi.herokuapp.com</td>
+</tr>
+<tr class="even">
+<td><strong>Content Type</strong></td>
+<td>application/json</td>
+</tr>
+<tr class="odd">
+<td><strong>Headers</strong></td>
+<td>-</td>
+</tr>
+</tbody>
+</table>
+<h3 id="request-body-payload-example-6">Request Body Payload Example</h3>
+<p>None.</p>
+<h3 id="example-response-6">Example Response</h3>
+<p>If the get employee details request is successful, the service returns a response.</p>
+<p>The body of the response contains a JSON structure similar to the following. In this case, the assumption is that the <code>&lt;ID&gt;</code> specified is <code>2</code>.</p>
+<pre><code>[
+    {
+        &quot;EmployeeId&quot;: 2,
+        &quot;LastName&quot;: &quot;Edwards&quot;,
+        &quot;FirstName&quot;: &quot;Nancy&quot;,
+        &quot;Title&quot;: &quot;Sales Manager&quot;,
+        &quot;ReportsTo&quot;: 1,
+        &quot;BirthDate&quot;: &quot;1958-12-08 00:00:00&quot;,
+        &quot;HireDate&quot;: &quot;2002-05-01 00:00:00&quot;,
+        &quot;Address&quot;: &quot;825 8 Ave SW&quot;,
+        &quot;City&quot;: &quot;Calgary&quot;,
+        &quot;State&quot;: &quot;AB&quot;,
+        &quot;Country&quot;: &quot;Canada&quot;,
+        &quot;PostalCode&quot;: &quot;T2P 2T3&quot;,
+        &quot;Phone&quot;: &quot;+1 (403) 262-3443&quot;,
+        &quot;Fax&quot;: &quot;+1 (403) 262-3322&quot;,
+        &quot;Email&quot;: &quot;nancy@chinookcorp.com&quot;
+    }
+]</code></pre>
+<p>The response contains the details of the employee which include the following parameters:</p>
+<table>
+<colgroup>
+<col style="width: 33%" />
+<col style="width: 33%" />
+<col style="width: 33%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th>Field</th>
+<th>Description</th>
+<th>Type</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><code>EmployeeId</code></td>
+<td>The internal unique ID of the employee.</td>
+<td>Integer</td>
+</tr>
+<tr class="even">
+<td><code>FirstName</code></td>
+<td>The first name of the employee.</td>
+<td>Varchar</td>
+</tr>
+<tr class="odd">
+<td><code>LastName</code></td>
+<td>The last name of the employee.</td>
+<td>Varchar</td>
+</tr>
+<tr class="even">
+<td><code>Title</code></td>
+<td>The role of the employee in the company, for example, “General Manager”.</td>
+<td>Varchar</td>
+</tr>
+<tr class="odd">
+<td><code>ReportsTo</code></td>
+<td>The ID of the person (employee) to which the employee reports.</td>
+<td>Integer</td>
+</tr>
+<tr class="even">
+<td><code>BirthDate</code></td>
+<td>The employee’s birth date.</td>
+<td>Varchar</td>
+</tr>
+<tr class="odd">
+<td><code>HireDate</code></td>
+<td>The date on which the employee started with the company.</td>
+<td>Varchar</td>
+</tr>
+<tr class="even">
+<td><code>Address</code></td>
+<td>The address of the employee.</td>
+<td>Varchar</td>
+</tr>
+<tr class="odd">
+<td><code>City</code></td>
+<td>The city in which the employee is based.</td>
+<td>Varchar</td>
+</tr>
+<tr class="even">
+<td><code>State</code></td>
+<td>The state in which the empoloyee is based.</td>
+<td>Varchar</td>
+</tr>
+<tr class="odd">
+<td><code>Country</code></td>
+<td>The country in which the employee is based.</td>
+<td>Varchar</td>
+</tr>
+<tr class="even">
+<td><code>PostalCode</code></td>
+<td>The postal code of the employee’s location.</td>
+<td>Varchar</td>
+</tr>
+<tr class="odd">
+<td><code>Phone</code></td>
+<td>The employee’s phone number.</td>
+<td>Varchar</td>
+</tr>
+<tr class="even">
+<td><code>Fax</code></td>
+<td>The empoloyee’s FAX number.</td>
+<td>Varchar</td>
+</tr>
+<tr class="odd">
+<td><code>Email</code></td>
+<td>The empoloyee’s email address.</td>
+<td>Varchar</td>
+</tr>
+</tbody>
+</table>
+<h3 id="errors-5">Errors</h3>
+<p>None. If you specify an employee ID that does not exist, the response is <code>null</code>.</p>
+<h2 id="add-an-employee">Add an Employee</h2>
+<p>You add a new employee by sending an HTTP <strong>POST</strong> request with the required employee information to the <code>/api/employees</code> endpoint.</p>
+<blockquote>
+<p><strong>Note</strong></p>
+<p>The <code>FirstName</code>, <code>LastName</code>, and <code>Email</code> parameters are required and you must specify them in your request. You can optionally include other parameters in the request.</p>
+</blockquote>
+<table>
+<thead>
+<tr class="header">
+<th>Request</th>
+<th>POST <code>/api/employees</code></th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><strong>Host</strong></td>
+<td>https://twiapi.herokuapp.com</td>
+</tr>
+<tr class="even">
+<td><strong>Content Type</strong></td>
+<td>application/json</td>
+</tr>
+<tr class="odd">
+<td><strong>Headers</strong></td>
+<td>-</td>
+</tr>
+</tbody>
+</table>
+<h3 id="request-body-payload-example-7">Request Body Payload Example</h3>
+<p>An example of the JSON structure in the request body is as follows:</p>
+<pre><code>{
+    &quot;FirstName&quot;: &quot;John&quot;,
+    &quot;LastName&quot;: &quot;Flannery&quot;,
+    &quot;Email&quot;: &quot;john.flannery@technicallywriteit.com&quot;
+}</code></pre>
+<p>The request body can include the following:</p>
+<table style="width:100%;">
+<colgroup>
+<col style="width: 16%" />
+<col style="width: 16%" />
+<col style="width: 16%" />
+<col style="width: 16%" />
+<col style="width: 16%" />
+<col style="width: 16%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th>Input Parameter</th>
+<th>Description</th>
+<th>Type</th>
+<th>Size</th>
+<th>Mandatory</th>
+<th>Default Value</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><code>FirstName</code></td>
+<td>The first name of the employee.</td>
+<td>Varchar</td>
+<td>2-40</td>
+<td>Yes</td>
+<td>-</td>
+</tr>
+<tr class="even">
+<td><code>LastName</code></td>
+<td>The last name of the employee.</td>
+<td>Varchar</td>
+<td>2-20</td>
+<td>Yes</td>
+<td>-</td>
+</tr>
+<tr class="odd">
+<td><code>Title</code></td>
+<td>The role of the employee in the company, for example, “General Manager”.</td>
+<td>Varchar</td>
+<td>30</td>
+<td>No</td>
+<td>-</td>
+</tr>
+<tr class="even">
+<td><code>ReportsTo</code></td>
+<td>The ID of the person (employee) to which the employee reports.</td>
+<td>Integer</td>
+<td>-</td>
+<td>Yes</td>
+<td>-</td>
+</tr>
+<tr class="odd">
+<td><code>BirthDate</code></td>
+<td>The employee’s birth date.</td>
+<td>Datetime</td>
+<td>-</td>
+<td>Yes</td>
+<td>-</td>
+</tr>
+<tr class="even">
+<td><code>HireDate</code></td>
+<td>The date on which the employee started with the company.</td>
+<td>Datetime</td>
+<td>-</td>
+<td>Yes</td>
+<td>-</td>
+</tr>
+<tr class="odd">
+<td><code>Address</code></td>
+<td>The address of the employee.</td>
+<td>Varchar</td>
+<td>70</td>
+<td>No</td>
+<td>-</td>
+</tr>
+<tr class="even">
+<td><code>City</code></td>
+<td>The city in which the employee is based.</td>
+<td>Varchar</td>
+<td>40</td>
+<td>No</td>
+<td>-</td>
+</tr>
+<tr class="odd">
+<td><code>State</code></td>
+<td>The state in which the empoloyee is based.</td>
+<td>Varchar</td>
+<td>40</td>
+<td>No</td>
+<td>-</td>
+</tr>
+<tr class="even">
+<td><code>Country</code></td>
+<td>The country in which the employee is based.</td>
+<td>Varchar</td>
+<td>40</td>
+<td>No</td>
+<td>-</td>
+</tr>
+<tr class="odd">
+<td><code>PostalCode</code></td>
+<td>The postal code of the employee’s location.</td>
+<td>Varchar</td>
+<td>40</td>
+<td>No</td>
+<td>-</td>
+</tr>
+<tr class="even">
+<td><code>Phone</code></td>
+<td>The employee’s phone number.</td>
+<td>Varchar</td>
+<td>40</td>
+<td>No</td>
+<td>-</td>
+</tr>
+<tr class="odd">
+<td><code>Fax</code></td>
+<td>The empoloyee’s FAX number.</td>
+<td>Varchar</td>
+<td>40</td>
+<td>No</td>
+<td>-</td>
+</tr>
+<tr class="even">
+<td><code>Email</code></td>
+<td>The empoloyee’s email address.</td>
+<td>Varchar</td>
+<td>40</td>
+<td>Yes</td>
+<td>-</td>
+</tr>
+</tbody>
+</table>
+<h3 id="example-response-7">Example Response</h3>
+<p>If the add employee request is successful and the service allocates an <code>EmployeeID</code>, the service returns a response.</p>
+<p>The response is as follows:</p>
+<pre><code>    &quot;The employee record was added.&quot;</code></pre>
+<h3 id="errors-6">Errors</h3>
+<p>If the add employee request is not successful, the service responds with an error code, rejects the request, and does not create the employee record in the database. Some examples of error messages are provided.</p>
+<p>A parameter value is longer or shorter than the specified range. For example, if <code>FirstName</code> is shorter than two characters or longer than 40 characters, the following errors are generated:</p>
+<pre><code>    &quot;FirstName&quot; length must be at least 2 characters long&quot;</code></pre>
+<p>or</p>
+<pre><code>    &quot;&quot;FirstName&quot; length must be less than or equal to 40 characters long&quot;</code></pre>
+<p>If an email address is specified in an incorrect format:</p>
+<pre><code>    &quot;Email&quot; must be a valid email&quot;</code></pre>
+<h2 id="edit-employee-details">Edit Employee Details</h2>
+<p>You can edit employee details by sending an HTTP <strong>PUT</strong> request with the relevant employee information to the <code>/api/employees/&lt;ID&gt;</code> endpoint, where <code>&lt;ID&gt;</code> is the ID of the employee.</p>
+<table>
+<thead>
+<tr class="header">
+<th>Request</th>
+<th>PUT <code>/api/customers/&lt;ID&gt;</code></th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><strong>Host</strong></td>
+<td>https://twiapi.herokuapp.com</td>
+</tr>
+<tr class="even">
+<td><strong>Content Type</strong></td>
+<td>application/json</td>
+</tr>
+<tr class="odd">
+<td><strong>Headers</strong></td>
+<td>-</td>
+</tr>
+</tbody>
+</table>
+<h3 id="request-body-payload-example-8">Request Body Payload Example</h3>
+<p>An example of the JSON structure in the request body is as follows:</p>
+<pre><code>{
+    &quot;City&quot;: &quot;Galway&quot;,
+    &quot;Country&quot;: &quot;Ireland&quot;
+}</code></pre>
+<p>The request body can include the following:</p>
+<table style="width:100%;">
+<colgroup>
+<col style="width: 16%" />
+<col style="width: 16%" />
+<col style="width: 16%" />
+<col style="width: 16%" />
+<col style="width: 16%" />
+<col style="width: 16%" />
+</colgroup>
+<thead>
+<tr class="header">
+<th>Input Parameter</th>
+<th>Description</th>
+<th>Type</th>
+<th>Size</th>
+<th>Mandatory</th>
+<th>Default Value</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><code>FirstName</code></td>
+<td>The first name of the employee.</td>
+<td>Varchar</td>
+<td>2-40</td>
+<td>Yes</td>
+<td>-</td>
+</tr>
+<tr class="even">
+<td><code>LastName</code></td>
+<td>The last name of the employee.</td>
+<td>Varchar</td>
+<td>2-20</td>
+<td>Yes</td>
+<td>-</td>
+</tr>
+<tr class="odd">
+<td><code>Title</code></td>
+<td>The role of the employee in the company, for example, “General Manager”.</td>
+<td>Varchar</td>
+<td>30</td>
+<td>No</td>
+<td>-</td>
+</tr>
+<tr class="even">
+<td><code>ReportsTo</code></td>
+<td>The ID of the person (employee) to which the employee reports.</td>
+<td>Integer</td>
+<td>-</td>
+<td>Yes</td>
+<td>-</td>
+</tr>
+<tr class="odd">
+<td><code>BirthDate</code></td>
+<td>The employee’s birth date.</td>
+<td>Datetime</td>
+<td>-</td>
+<td>Yes</td>
+<td>-</td>
+</tr>
+<tr class="even">
+<td><code>HireDate</code></td>
+<td>The date on which the employee started with the company.</td>
+<td>Datetime</td>
+<td>-</td>
+<td>Yes</td>
+<td>-</td>
+</tr>
+<tr class="odd">
+<td><code>Address</code></td>
+<td>The address of the employee.</td>
+<td>Varchar</td>
+<td>70</td>
+<td>No</td>
+<td>-</td>
+</tr>
+<tr class="even">
+<td><code>City</code></td>
+<td>The city in which the employee is based.</td>
+<td>Varchar</td>
+<td>40</td>
+<td>No</td>
+<td>-</td>
+</tr>
+<tr class="odd">
+<td><code>State</code></td>
+<td>The state in which the empoloyee is based.</td>
+<td>Varchar</td>
+<td>40</td>
+<td>No</td>
+<td>-</td>
+</tr>
+<tr class="even">
+<td><code>Country</code></td>
+<td>The country in which the employee is based.</td>
+<td>Varchar</td>
+<td>40</td>
+<td>No</td>
+<td>-</td>
+</tr>
+<tr class="odd">
+<td><code>PostalCode</code></td>
+<td>The postal code of the employee’s location.</td>
+<td>Varchar</td>
+<td>40</td>
+<td>No</td>
+<td>-</td>
+</tr>
+<tr class="even">
+<td><code>Phone</code></td>
+<td>The employee’s phone number.</td>
+<td>Varchar</td>
+<td>40</td>
+<td>No</td>
+<td>-</td>
+</tr>
+<tr class="odd">
+<td><code>Fax</code></td>
+<td>The empoloyee’s FAX number.</td>
+<td>Varchar</td>
+<td>40</td>
+<td>No</td>
+<td>-</td>
+</tr>
+<tr class="even">
+<td><code>Email</code></td>
+<td>The empoloyee’s email address.</td>
+<td>Varchar</td>
+<td>40</td>
+<td>Yes</td>
+<td>-</td>
+</tr>
+</tbody>
+</table>
+<h3 id="example-response-8">Example Response</h3>
+<p>If the edit employee details request is successful, the service returns a response.</p>
+<p>The response is as follows:</p>
+<pre><code>    &quot;The customer record was updated.&quot;</code></pre>
+<h3 id="errors-7">Errors</h3>
+<p>If the add customer request is not successful, the service responds with an error code, rejects the request, and does not update the customer record in the database. Some examples of error messages are provided.</p>
+<p>A parameter value is longer or shorter than the specified range. For example, if <code>Country</code> is shorter than two characters or longer than 40 characters, the following errors are generated:</p>
+<pre><code>    &quot;Country&quot; length must be at least 2 characters long&quot;</code></pre>
+<p>or</p>
+<pre><code>    &quot;Country&quot; length must be less than or equal to 40 characters long&quot;</code></pre>
+<h2 id="delete-an-employee">Delete an Employee</h2>
+<p>You delete an employee record by sending an HTTP <strong>DELETE</strong> request to the <code>/api/employees/&lt;id&gt;</code> endpoint, where <code>&lt;ID&gt;</code> is the ID of the employee record to be deleted.</p>
+<table>
+<thead>
+<tr class="header">
+<th>Request</th>
+<th>DELETE <code>/api/employees/&lt;ID&gt;</code></th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><strong>Host</strong></td>
+<td>https://twiapi.herokuapp.com</td>
+</tr>
+<tr class="even">
+<td><strong>Content Type</strong></td>
+<td>application/json</td>
+</tr>
+<tr class="odd">
+<td><strong>Headers</strong></td>
+<td>-</td>
+</tr>
+</tbody>
+</table>
+<h3 id="request-body-payload-example-9">Request Body Payload Example</h3>
+<p>None.</p>
+<h3 id="example-response-9">Example Response</h3>
+<p>If the delete employee request is successful, the service returns a response with a message.</p>
+<pre><code>    &quot;The employee record is deleted.&quot;</code></pre>
+</body>
+</html>
